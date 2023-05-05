@@ -1,6 +1,4 @@
-#Vending machine problem
-
-Vending Machine Kata
+Vending Machine Kata (unfinished)
 ====================
 
 In this exercise you will build the brains of a vending machine.  It will accept money, make change, maintain
