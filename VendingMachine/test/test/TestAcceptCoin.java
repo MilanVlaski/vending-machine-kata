@@ -47,13 +47,18 @@ class TestAcceptCoin {
 	void shouldRejectPenny() {
 		vm.insert("penny");
 		assertEquals(0, vm.getAmount());
-		assertEquals("0.00", vm.getDisplayMessage());
+		assertEquals("INSERT COIN", vm.getDisplayMessage());
+		assertEquals("penny", vm.getCoinReturn());
 	}
-	
 	
 	@Test
-	void shouldReturnRejectedCoin() {
-		
+	void shouldDispenseColaIfEnoughMoneyInserted() {
+		vm.selectCola();
+		vm.insert("quarter");
+		vm.insert("quarter");
+		vm.insert("dime");
+		vm.insert("nickel");
+		assertEquals("THANK YOU", vm.getDisplayMessage());
+		assertEquals("Cola", vm.getDispenser());
 	}
-
 }
