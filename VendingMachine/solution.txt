@@ -1,0 +1,2 @@
+Coin. (value) (can be nickel, dime, quarter or penny)
+must be recognized based on size

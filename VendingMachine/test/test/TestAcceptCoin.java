@@ -30,7 +30,9 @@ class TestAcceptCoin {
 	
 	@Test
 	void shouldAcceptQuarter() {
-		
+		vm.insert(Coin.QUARTER);
+		assertEquals(25, vm.amount);
+		assertEquals(State.READY, vm.getState());
 	}
 
 	@Test
