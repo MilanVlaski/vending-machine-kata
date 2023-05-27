@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.vintage.engine.descriptor.VintageEngineDescriptor;
 
+import main.Item;
 import main.VendingMachine;
 
 class TestAcceptCoin {
@@ -56,9 +57,30 @@ class TestAcceptCoin {
 		vm.selectCola();
 		vm.insert("quarter");
 		vm.insert("quarter");
-		vm.insert("dime");
-		vm.insert("nickel");
+		vm.insert("quarter");
+		vm.insert("quarter");
+		assertEquals(Item.COLA.name, vm.getDispenser());
 		assertEquals("THANK YOU", vm.getDisplayMessage());
-		assertEquals("Cola", vm.getDispenser());
+	}
+	
+	@Test
+	void shouldDispenseChipsIfEnoughMoneyInserted() {
+		vm.selectCola();
+		vm.insert("quarter");
+		vm.insert("quarter");
+		assertEquals(Item.CHIPS.name, vm.getDispenser());
+		assertEquals("THANK YOU", vm.getDisplayMessage());
+	}
+	
+	@Test
+	void shouldGetItemPrice() {
+		assertEquals(Item.COLA.price, 1.00);
+	}
+	
+	@Test
+	void shouldAcceptMixedCaseQuarter() {
+		vm.insert("qUaRteR");
+		assertEquals(0.25, vm.getAmount());
+		assertEquals("0.25", vm.getDisplayMessage());
 	}
 }
