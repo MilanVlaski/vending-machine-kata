@@ -1,6 +1,7 @@
 package main;
 
 public enum Item {
+	
 	COLA(1.00),
 	CHIPS(0.50),
 	CANDY(0.65);
