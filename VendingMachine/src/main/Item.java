@@ -8,7 +8,9 @@ public enum Item {
 
 	public double price;
 	
-	Item(double price) {
+	Item (double price) {
 		this.price = price;
 	}
+	
+	
 }

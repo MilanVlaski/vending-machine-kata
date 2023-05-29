@@ -55,21 +55,21 @@ class TestAcceptCoin {
 	
 	@Test
 	void shouldDispenseColaIfEnoughMoneyInserted() {
-		vm.selectCola();
+		vm.selectItem("cola");
 		vm.insert("quarter");
 		vm.insert("quarter");
 		vm.insert("quarter");
 		vm.insert("quarter");
-		assertEquals(Item.COLA.name(), vm.getDispenser());
+		assertEquals(Item.COLA.toString(), vm.getDispenser());
 		assertEquals("THANK YOU", vm.getDisplayMessage());
 	}
 	
 	@Test
 	void shouldDispenseChipsIfEnoughMoneyInserted() {
-		vm.selectCola();
+		vm.selectItem("chips");
 		vm.insert("quarter");
 		vm.insert("quarter");
-		assertEquals(Item.CHIPS.name(), vm.getDispenser());
+		assertEquals(Item.CHIPS.toString(), vm.getDispenser());
 		assertEquals("THANK YOU", vm.getDisplayMessage());
 	}
 	

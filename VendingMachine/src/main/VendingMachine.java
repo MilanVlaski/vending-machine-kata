@@ -26,40 +26,26 @@ public class VendingMachine {
 	
 	public void insert(String typeOfCoin) {
 		
-		String type = typeOfCoin.toLowerCase();
-		
-		double coin = ValidCoin.getCoinValue(type);
+		double coin = ValidCoin.getCoinValue(typeOfCoin);
 		
 		if(coin != 0)
 			insertedAmount += coin;
 		else
-			coinReturn += type;
-		
-//		if(type.equals("quarter"))
-//			insertedAmount += 0.25;
-//		else if (type.equals("dime"))
-//			insertedAmount += 0.1;
-//		else if (type.equals("nickel"))
-//			insertedAmount += 0.05;
-//		else
-//			coinReturn += type;
+			coinReturn += typeOfCoin;
 		
 		if(insertedAmount > 0)
 			displayMessage = String.format("%.2f", insertedAmount);
 		
 		if(selectedItem != null && insertedAmount == selectedItem.price) {
-			dispenser = selectedItem.name();
+			dispenser = selectedItem.toString();
 			displayMessage = "THANK YOU";
 		}
 	}
 	
-	public void selectCola() {
-		selectedItem = Item.COLA;
+	public void selectItem(String item) {		
+		String myItem = item.toUpperCase();
+		selectedItem = Item.valueOf(myItem);
 	}
-	
-	
-	
-	
 	
 	
 	
