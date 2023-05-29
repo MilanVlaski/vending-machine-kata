@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.vintage.engine.descriptor.VintageEngineDescriptor;
 
+import main.ValidCoin;
 import main.Item;
 import main.VendingMachine;
 
@@ -82,5 +83,15 @@ class TestAcceptCoin {
 		vm.insert("qUaRteR");
 		assertEquals(0.25, vm.getAmount());
 		assertEquals("0.25", vm.getDisplayMessage());
+	}
+	
+	@Test
+	void shouldGetValueOfCoin() {
+		assertEquals(0.25, ValidCoin.getCoinValue("quarter"));
+	}
+	
+	@Test
+	void shouldGetValueOfFakeCoin() {
+		assertEquals(0.00, ValidCoin.getCoinValue("fake coin"));
 	}
 }

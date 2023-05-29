@@ -28,14 +28,21 @@ public class VendingMachine {
 		
 		String type = typeOfCoin.toLowerCase();
 		
-		if(type.equals("quarter"))
-			insertedAmount += 0.25;
-		else if (type.equals("dime"))
-			insertedAmount += 0.1;
-		else if (type.equals("nickel"))
-			insertedAmount += 0.05;
-		else if (type.equals("penny"))
+		double coin = ValidCoin.getCoinValue(type);
+		
+		if(coin != 0)
+			insertedAmount += coin;
+		else
 			coinReturn += type;
+		
+//		if(type.equals("quarter"))
+//			insertedAmount += 0.25;
+//		else if (type.equals("dime"))
+//			insertedAmount += 0.1;
+//		else if (type.equals("nickel"))
+//			insertedAmount += 0.05;
+//		else
+//			coinReturn += type;
 		
 		if(insertedAmount > 0)
 			displayMessage = String.format("%.2f", insertedAmount);
