@@ -1,15 +1,13 @@
 package main;
 
 public enum Item {
-	COLA(1.00, "cola"),
-	CHIPS(0.50, "chips"),
-	CANDY(0.65, "candy");
+	COLA(1.00),
+	CHIPS(0.50),
+	CANDY(0.65);
 
 	public double price;
-	public String name;
 	
-	Item(double price, String name) {
+	Item(double price) {
 		this.price = price;
-		this.name = name;
 	}
 }

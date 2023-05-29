@@ -48,7 +48,7 @@ public class VendingMachine {
 			displayMessage = String.format("%.2f", insertedAmount);
 		
 		if(selectedItem != null && insertedAmount == selectedItem.price) {
-			dispenser = selectedItem.name;
+			dispenser = selectedItem.name();
 			displayMessage = "THANK YOU";
 		}
 	}

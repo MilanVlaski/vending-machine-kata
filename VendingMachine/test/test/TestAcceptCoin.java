@@ -60,7 +60,7 @@ class TestAcceptCoin {
 		vm.insert("quarter");
 		vm.insert("quarter");
 		vm.insert("quarter");
-		assertEquals(Item.COLA.name, vm.getDispenser());
+		assertEquals(Item.COLA.name(), vm.getDispenser());
 		assertEquals("THANK YOU", vm.getDisplayMessage());
 	}
 	
@@ -69,7 +69,7 @@ class TestAcceptCoin {
 		vm.selectCola();
 		vm.insert("quarter");
 		vm.insert("quarter");
-		assertEquals(Item.CHIPS.name, vm.getDispenser());
+		assertEquals(Item.CHIPS.name(), vm.getDispenser());
 		assertEquals("THANK YOU", vm.getDisplayMessage());
 	}
 	
