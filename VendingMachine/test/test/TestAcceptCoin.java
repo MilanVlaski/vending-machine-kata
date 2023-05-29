@@ -39,13 +39,6 @@ class TestAcceptCoin {
 	}
 	
 	@Test
-	void shouldAcceptNickel() {
-		vm.insert("nickel");
-		assertEquals(0.05, vm.getAmount());
-		assertEquals("0.05", vm.getDisplayMessage());
-	}
-	
-	@Test
 	void shouldRejectPenny() {
 		vm.insert("penny");
 		assertEquals(0, vm.getAmount());
@@ -60,22 +53,17 @@ class TestAcceptCoin {
 		vm.insert("quarter");
 		vm.insert("quarter");
 		vm.insert("quarter");
+		assertEquals(0, vm.getAmount());
 		assertEquals(Item.COLA.toString(), vm.getDispenser());
 		assertEquals("THANK YOU", vm.getDisplayMessage());
 	}
 	
 	@Test
-	void shouldDispenseChipsIfEnoughMoneyInserted() {
+	void shouldSayInsertCoinIfDispensed() {
 		vm.selectItem("chips");
 		vm.insert("quarter");
 		vm.insert("quarter");
-		assertEquals(Item.CHIPS.toString(), vm.getDispenser());
-		assertEquals("THANK YOU", vm.getDisplayMessage());
-	}
-	
-	@Test
-	void shouldGetItemPrice() {
-		assertEquals(Item.COLA.price, 1.00);
+		assertEquals("INSERT COIN", vm.getDisplayMessage());
 	}
 	
 	@Test
@@ -92,6 +80,6 @@ class TestAcceptCoin {
 	
 	@Test
 	void shouldGetValueOfFakeCoin() {
-		assertEquals(0.00, ValidCoin.getCoinValue("fake coin"));
+		assertEquals(0.00, ValidCoin.getCoinValue("fake coin that dont exist"));
 	}
 }

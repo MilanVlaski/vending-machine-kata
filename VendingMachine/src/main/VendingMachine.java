@@ -38,6 +38,7 @@ public class VendingMachine {
 		
 		if(selectedItem != null && insertedAmount == selectedItem.price) {
 			dispenser = selectedItem.toString();
+			insertedAmount = 0;
 			displayMessage = "THANK YOU";
 		}
 	}

@@ -1,0 +1,2 @@
+If the display is
+checked again, it will display INSERT COIN and the current amount will be set to $0.00.
