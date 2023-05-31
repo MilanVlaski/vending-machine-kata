@@ -1,10 +1,14 @@
 package main;
 
+import java.math.BigDecimal;
+
+import org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.BigDecimalConversion;
+
 public class VendingMachine {
 
 	private Display display;
 	private double insertedAmount;
-	private double coinReturn = 0;
+	private double coinReturn;
 	private String dispenser;
 	private Item selectedItem;
 	
@@ -44,7 +48,7 @@ public class VendingMachine {
 		//Displays thank you and dispenses the item and reduces the money
 		if(selectedItem != null && insertedAmount >= selectedItem.price) {
 			dispenser = selectedItem.toString();
-			coinReturn += insertedAmount - selectedItem.price;
+			coinReturn += (insertedAmount - selectedItem.price);
 			selectedItem = null;
 			insertedAmount = 0;//this will have to return change at some point
 		}
@@ -52,6 +56,12 @@ public class VendingMachine {
 	public void selectItem(String item) {		
 		String myItem = item.toUpperCase();
 		selectedItem = Item.valueOf(myItem);
+		if(selectedItem != null && insertedAmount >= selectedItem.price) {
+			dispenser = selectedItem.toString();
+			coinReturn += insertedAmount - selectedItem.price;
+			selectedItem = null;
+			insertedAmount = 0;//this will have to return change at some point
+		}
 	}
 	
 	

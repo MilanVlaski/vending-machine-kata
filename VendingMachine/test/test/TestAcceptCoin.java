@@ -98,6 +98,6 @@ class TestAcceptCoin {
 		vm.insert("quarter");
 		vm.insert("quarter");
 		vm.selectItem("candy");
-		assertEquals(0.10, vm.getCoinReturn());
+		assertEquals(0.1, vm.getCoinReturn());
 	}
 }
