@@ -24,7 +24,7 @@ public class Display {
 		else
 			itemPrice = "";
 		
-		if(vm.getDispenser() != null) {
+		if(vm.getDispenser() != null && vm.getSelectedItem() == null) {
 			message = "THANK YOU";
 		}
 		else {

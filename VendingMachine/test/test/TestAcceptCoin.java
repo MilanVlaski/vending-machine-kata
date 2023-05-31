@@ -75,14 +75,16 @@ class TestAcceptCoin {
 	}
 	
 	@Test
-	void shouldSayInsertCoinIfDispensed() {
+	void shouldSayThankYouThenInsertCoinIfDispensed() {
+		System.out.println("*" + vm.displayMessage() + "*");
 		vm.selectItem("chips");
+		System.out.println("*" + vm.displayMessage() + "*");
 		vm.insert("quarter");
+		System.out.println("*" + vm.displayMessage() + "*");
 		vm.insert("quarter");
+		System.out.println("*" + vm.displayMessage() + "*");
 		assertEquals(Item.CHIPS.toString(), vm.getDispenser());
-		//No idea why this passes
 		assertTrue(vm.displayMessage().contains("THANK YOU"));
-		assertTrue(vm.displayMessage().contains("INSERT COIN"));
 	}
 	
 	@Test

@@ -17,6 +17,9 @@ public class VendingMachine {
 	}
 	public String displayMessage() {
 		display.update();
+		return checkMessage();
+	}
+	public String checkMessage() {
 		return display.getMessage();
 	}
 	public double getAmount() {
