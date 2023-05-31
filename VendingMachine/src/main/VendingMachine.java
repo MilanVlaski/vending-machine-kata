@@ -2,47 +2,52 @@ package main;
 
 public class VendingMachine {
 
+	private Display display;
 	private double insertedAmount;
-	private String displayMessage;
-	private String coinReturn = "";
+	private double coinReturn;
 	private String dispenser;
 	private Item selectedItem;
 	
 	public VendingMachine() {
-		this.displayMessage = "INSERT COIN";
+		this.display = new Display(this);
 	}
-	public String getDisplayMessage() {
-		return displayMessage;
+	public String displayMessage() {
+		display.update();
+		return display.getMessage();
 	}
 	public double getAmount() {
 		return insertedAmount;
 	}
-	public String getCoinReturn() {
+	public double getCoinReturn() {
 		return coinReturn;
 	}
 	public String getDispenser() {
 		return dispenser;
+	}
+	public Item getSelectedItem() {
+		return selectedItem;
+	}
+	public Display getDisplay() {
+		return display;
 	}
 	
 	public void insert(String typeOfCoin) {
 		
 		double coin = ValidCoin.getCoinValue(typeOfCoin);
 		
+		//Adds the amount or returns it
 		if(coin != 0)
 			insertedAmount += coin;
 		else
-			coinReturn += typeOfCoin;
+			coinReturn += coin;		
 		
-		if(insertedAmount > 0)
-			displayMessage = String.format("%.2f", insertedAmount);
-		
+		//Displays thank you and dispenses the item and reduces the money
 		if(selectedItem != null && insertedAmount == selectedItem.price) {
 			dispenser = selectedItem.toString();
-			insertedAmount = 0;
-			displayMessage = "THANK YOU";
+			selectedItem = null;
+			insertedAmount = 0;//this will have to return change at some point
 		}
 	}
-	
 	public void selectItem(String item) {		
 		String myItem = item.toUpperCase();
 		selectedItem = Item.valueOf(myItem);

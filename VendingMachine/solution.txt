@@ -1,2 +1,6 @@
-If the display is
-checked again, it will display INSERT COIN and the current amount will be set to $0.00.
+Figure out the display
+***Refactor the insert() method
+***Make a separate class for display
+
+We will have to return change at some point,
+rather than just set insertedAmount to 0

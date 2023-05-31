@@ -12,5 +12,8 @@ public enum Item {
 		this.price = price;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return name();
+	}
 }
