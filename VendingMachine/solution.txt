@@ -4,3 +4,6 @@ Figure out the display
 
 We will have to return change at some point,
 rather than just set insertedAmount to 0
+
+What if you insert money and only then choose an item?
+>Just gotta change the if statement in insert

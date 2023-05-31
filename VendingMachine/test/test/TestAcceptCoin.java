@@ -91,4 +91,13 @@ class TestAcceptCoin {
 		vm.insert("quarter");
 		assertTrue(vm.displayMessage().contains("PRICE = 1.00"));
 	}
+	
+	@Test
+	void shouldReturnChange() {
+		vm.insert("quarter");
+		vm.insert("quarter");
+		vm.insert("quarter");
+		vm.selectItem("candy");
+		assertEquals(0.10, vm.getCoinReturn());
+	}
 }
