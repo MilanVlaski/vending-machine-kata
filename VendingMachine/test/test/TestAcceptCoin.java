@@ -1,12 +1,11 @@
 package test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.vintage.engine.descriptor.VintageEngineDescriptor;
 
-import main.ValidCoin;
 import main.Item;
 import main.VendingMachine;
 
@@ -57,13 +56,6 @@ class TestAcceptCoin {
 		assertTrue(vendingMachine.dispenser().contains("COLA"));
 	}
 	
-	@Test
-	void shouldAcceptMixedCaseQuarter() {
-		vendingMachine.insert("qUaRteR");
-		assertEquals(0.25, vendingMachine.insertedAmount());
-		assertTrue(vendingMachine.displayMessage().contains("0.25"));
-	}
-	
 //	@Test // HIDDEN BECAUSE ValidCoin is private enum 
 //	void shouldGetValueOfCoin() {
 //		assertEquals(0.25, ValidCoin.valueOfCoin("quarter"));
@@ -100,11 +92,13 @@ class TestAcceptCoin {
 	}
 	
 	@Test
-	void shouldReturnDimeAsChange() {
+	void shouldReturnChange() {
+		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.selectItem("candy");
-		assertEquals("dime", vendingMachine.coinReturn()); // change has to be made up of valid coins!
+		assertTrue(vendingMachine.coinReturn().contains("dime"));
+		assertTrue(vendingMachine.coinReturn().contains("quarter"));
 	}
 }

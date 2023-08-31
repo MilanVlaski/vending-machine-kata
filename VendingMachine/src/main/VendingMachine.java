@@ -61,23 +61,30 @@ public class VendingMachine {
 
 	private void dispenseIfPossible() {
 		if (itemIsSelected() && insertedAmount >= selectedItem.price) {
-			dispenser = selectedItem.toString();
-			
-			coinReturn = getCoinsForChange(insertedAmount - selectedItem.price);
-			
+			dispenser = selectedItem.toString();		
+			coinReturn = getCoinsFor(subtract(insertedAmount, selectedItem.price));	
 			selectedItem = null;
 			insertedAmount = 0;
 		}
 	}
 	
+	private static double subtract(double payment, double price) {
+		return BigDecimal.valueOf(payment)
+				.subtract(BigDecimal.valueOf(price))
+				.doubleValue();
+	}
 	
-	
-	
-	private String getCoinsForChange(double change) {
-		if(change >= ValidCoin.DIME.value ) {
-			return "dime";
+	private static String getCoinsFor(double amount) {
+		String result = "";
+		while(amount > 0) {
+			for (ValidCoin coin : ValidCoin.values()) {
+				if(amount >= coin.value) {
+					result += coin.toString();
+					amount = subtract(amount, coin.value);
+				}
+			}
 		}
-		return "";
+		return result;
 	}
 
 
@@ -97,14 +104,18 @@ public class VendingMachine {
 		
 		public static double valueOfCoin(String typeOfCoin) {
 			
-			String type = typeOfCoin.toUpperCase();
 			double result = 0;
 			for (ValidCoin c : ValidCoin.values()) {
-				if(type.equals(c.toString()))
+				if(typeOfCoin.equals(c.toString()))
 					result = c.value;
 			}
 			
 			return result;
+		}
+		
+		@Override
+		public String toString() {
+			return name().toLowerCase();
 		}
 	}
 	
