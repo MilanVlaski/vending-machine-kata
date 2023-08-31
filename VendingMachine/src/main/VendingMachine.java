@@ -6,9 +6,9 @@ import org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.BigDeci
 
 public class VendingMachine {
 
-	private Display display;
+	private final Display display;
 	private double insertedAmount;
-	private double coinReturn;
+	private String coinReturn;
 	private String dispenser;
 	private Item selectedItem;
 	
@@ -17,53 +17,54 @@ public class VendingMachine {
 	}
 	public String displayMessage() {
 		display.update();
-		return checkMessage();
+		return display.show();
 	}
-	public String checkMessage() {
-		return display.getMessage();
-	}
-	public double getAmount() {
+	public double insertedAmount() {
 		return insertedAmount;
 	}
-	public double getCoinReturn() {
+	public String coinReturn() {
 		return coinReturn;
 	}
-	public String getDispenser() {
+	public String dispenser() {
 		return dispenser;
 	}
-	public Item getSelectedItem() {
+	public Item selectedItem() {
 		return selectedItem;
 	}
-	public Display getDisplay() {
+	public boolean itemIsSelected() {
+		return selectedItem != null;
+	}
+	public boolean dispenserEmpty() {
+		return dispenser == null;
+	}
+	public Display display() {
 		return display;
 	}
 	
 	public void insert(String typeOfCoin) {
 		
-		double coin = ValidCoin.getCoinValue(typeOfCoin);
+		double coinValue = ValidCoin.valueOfCoin(typeOfCoin);
 		
-		//Adds the amount or returns it
-		if(coin != 0)
-			insertedAmount += coin;
+		if(coinValue != 0)		
+			insertedAmount += coinValue;
 		else
-			coinReturn += coin;		
-		
-		//Displays thank you and dispenses the item and reduces the money
-		if(selectedItem != null && insertedAmount >= selectedItem.price) {
-			dispenser = selectedItem.toString();
-			coinReturn += (insertedAmount - selectedItem.price);
-			selectedItem = null;
-			insertedAmount = 0;//this will have to return change at some point
-		}
+			coinReturn += typeOfCoin;
+				
+		dispenseIfPossible();
 	}
+	
 	public void selectItem(String item) {		
 		String myItem = item.toUpperCase();
 		selectedItem = Item.valueOf(myItem);
-		if(selectedItem != null && insertedAmount >= selectedItem.price) {
+		dispenseIfPossible();
+	}
+
+	private void dispenseIfPossible() {
+		if (itemIsSelected() && insertedAmount >= selectedItem.price) {
 			dispenser = selectedItem.toString();
 			coinReturn += insertedAmount - selectedItem.price;
 			selectedItem = null;
-			insertedAmount = 0;//this will have to return change at some point
+			insertedAmount = 0;
 		}
 	}
 	

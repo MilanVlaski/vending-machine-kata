@@ -1,9 +1,14 @@
-Figure out the display
-***Refactor the insert() method
-***Make a separate class for display
+Item value being written both in tests and in code
+is bad. It should only remain in the code.
+Also item names, coin names...
 
-We will have to return change at some point,
-rather than just set insertedAmount to 0
+Our coin returns functions as a value holder (with invalid coins having no value)
+This is wrong. Enum for valid coins kinda makes sense, but invalid coins can be
+any string maybe.
 
-What if you insert money and only then choose an item?
->Just gotta change the if statement in insert
+Penny rejection means the same string shows up in the coinReturn.
+
+Change cannot have a double value, it should return valid coins.
+
+im testing the display and the model in the same test case...
+This makes sense, because they share the same setup.

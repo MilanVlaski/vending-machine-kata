@@ -12,7 +12,7 @@ public enum ValidCoin {
 		this.value = value;
 	}
 	
-	public static double getCoinValue(String typeOfCoin) {
+	public static double valueOfCoin(String typeOfCoin) {
 		
 		String type = typeOfCoin.toUpperCase();
 		double result = 0;

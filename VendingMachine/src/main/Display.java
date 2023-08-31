@@ -2,37 +2,38 @@ package main;
 
 public class Display {
 
-	private VendingMachine vm;
+	private final VendingMachine vendingMachine;
 	private String message = "INSERT COIN";
 	private String amount = "0.00 $";
 	private String itemPrice = "";
 	
 	public Display (VendingMachine vm) {
-		this.vm = vm;
+		this.vendingMachine = vm;
 	}
 	
-	public String getMessage() {
+	public String show() {
 		return message + "\n" + amount + "\n" + itemPrice + "\n";
 	}
 	
 	public void update() {
-		if(vm.getAmount() >= 0)
-			amount = formatMoney(vm.getAmount());
+		if(vendingMachine.insertedAmount() > 0)
+			amount = formatDollar(vendingMachine.insertedAmount());
 		
-		if(vm.getSelectedItem() != null)
-			itemPrice = "PRICE = " + formatMoney(vm.getSelectedItem().price);
-		else
-			itemPrice = "";
-		
-		if(vm.getDispenser() != null && vm.getSelectedItem() == null) {
-			message = "THANK YOU";
+		if(vendingMachine.itemIsSelected()) {
+			itemPrice = "PRICE = " + formatDollar(vendingMachine.selectedItem().price);
 		}
 		else {
-			message = "INSERT COIN";
+			itemPrice = "";		
+			if(!vendingMachine.dispenserEmpty()) {
+				message = "THANK YOU";
+			} else {
+				message = "INSERT COIN";
+			}
 		}
+		
 	}
 	
-	public String formatMoney(double money) {
+	public String formatDollar(double money) {
 		return String.format("%.2f $", money);
 	}
 }

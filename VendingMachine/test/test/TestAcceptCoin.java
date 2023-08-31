@@ -12,94 +12,99 @@ import main.VendingMachine;
 
 class TestAcceptCoin {
 
-	VendingMachine vm;
+	VendingMachine vendingMachine;
 	
 	@BeforeEach
 	void setup() {
-		vm = new VendingMachine();
+		vendingMachine = new VendingMachine();
 	}
 	
 	@Test
 	void shouldSayInsertCoinIfEmpty() {
-		assertTrue(vm.displayMessage().contains("INSERT COIN"));
+		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
 	}
 	
 	@Test
 	void shouldAcceptQuarter() {
-		vm.insert("quarter");
-		assertEquals(0.25, vm.getAmount());
-		assertTrue(vm.displayMessage().contains("0.25"));
+		vendingMachine.insert("quarter");
+		assertEquals(0.25, vendingMachine.insertedAmount());
+		assertTrue(vendingMachine.displayMessage().contains("0.25"));
 	}
 	
 	@Test
 	void shouldAcceptDime() {
-		vm.insert("dime");
-		assertEquals(0.1, vm.getAmount());
-		assertTrue(vm.displayMessage().contains("0.10"));
+		vendingMachine.insert("dime");
+		assertEquals(0.1, vendingMachine.insertedAmount());
+		assertTrue(vendingMachine.displayMessage().contains("0.10"));
 	}
 	
 	@Test
 	void shouldRejectPenny() {
-		vm.insert("penny");
-		assertEquals(0, vm.getAmount());
-		assertTrue(vm.displayMessage().contains("INSERT COIN"));
-		assertEquals(0, vm.getCoinReturn());
+		vendingMachine.insert("penny");
+		assertEquals(0, vendingMachine.insertedAmount());
+		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
+		assertTrue(vendingMachine.coinReturn().contains("penny"));
 	}
 	
 	@Test
 	void shouldDispenseColaIfEnoughMoneyInserted() {
-		vm.selectItem("cola");
-		vm.insert("quarter");
-		vm.insert("quarter");
-		vm.insert("quarter");
-		vm.insert("quarter");
-		assertEquals(0, vm.getAmount());
-		assertTrue(vm.getDispenser().contains("COLA"));
+		vendingMachine.selectItem("cola");
+		vendingMachine.insert("quarter");
+		vendingMachine.insert("quarter");
+		vendingMachine.insert("quarter");
+		vendingMachine.insert("quarter");
+		assertEquals(0, vendingMachine.insertedAmount());
+		assertTrue(vendingMachine.dispenser().contains("COLA"));
 	}
 	
 	@Test
 	void shouldAcceptMixedCaseQuarter() {
-		vm.insert("qUaRteR");
-		assertEquals(0.25, vm.getAmount());
-		assertTrue(vm.displayMessage().contains("0.25"));
+		vendingMachine.insert("qUaRteR");
+		assertEquals(0.25, vendingMachine.insertedAmount());
+		assertTrue(vendingMachine.displayMessage().contains("0.25"));
 	}
 	
 	@Test
 	void shouldGetValueOfCoin() {
-		assertEquals(0.25, ValidCoin.getCoinValue("quarter"));
+		assertEquals(0.25, ValidCoin.valueOfCoin("quarter"));
 	}
 	
 	@Test
 	void shouldGetValueOfFakeCoin() {
-		assertEquals(0.00, ValidCoin.getCoinValue("fake coin that dont exist"));
+		assertEquals(0.00, ValidCoin.valueOfCoin("fake coin that dont exist"));
 	}
 	
 	@Test
 	void shouldSayThankYouThenInsertCoinIfDispensed() {
-		System.out.println("*" + vm.displayMessage() + "*");
-		vm.selectItem("chips");
-		System.out.println("*" + vm.displayMessage() + "*");
-		vm.insert("quarter");
-		System.out.println("*" + vm.displayMessage() + "*");
-		vm.insert("quarter");
-		System.out.println("*" + vm.displayMessage() + "*");
-		assertEquals(Item.CHIPS.toString(), vm.getDispenser());
-		assertTrue(vm.displayMessage().contains("THANK YOU"));
+		vendingMachine.selectItem("chips");
+		vendingMachine.insert("quarter");
+		vendingMachine.insert("quarter");
+		assertEquals(Item.CHIPS.toString(), vendingMachine.dispenser());
+		assertTrue(vendingMachine.displayMessage().contains("THANK YOU"));
 	}
 	
 	@Test
 	void shouldDisplayPriceOfItemIfNotEnoughMoney() {
-		vm.selectItem("cola");
-		vm.insert("quarter");
-		assertTrue(vm.displayMessage().contains("PRICE = 1.00"));
+		vendingMachine.selectItem("cola");
+		vendingMachine.insert("quarter");
+		assertTrue(vendingMachine.displayMessage().contains("PRICE = 1.00"));
 	}
 	
 	@Test
-	void shouldReturnChange() {
-		vm.insert("quarter");
-		vm.insert("quarter");
-		vm.insert("quarter");
-		vm.selectItem("candy");
-		assertEquals(0.1, vm.getCoinReturn());
+	void shouldDispenseIfYouSelectItemAfterInsertingEnoughCoins() {
+		vendingMachine.insert("quarter");
+		vendingMachine.insert("quarter");
+		vendingMachine.insert("quarter");
+		vendingMachine.selectItem("candy");
+		assertEquals("CANDY", vendingMachine.dispenser());
 	}
+	
+//	@Test
+//	void shouldDispenseIfYouSelectItemAfterInserting1EnoughCoins() {
+//		vm.insert("quarter");
+//		vm.insert("quarter");
+//		vm.insert("quarter");
+//		vm.selectItem("candy");
+//		assertEquals(0.1, vm.coinReturn()); // change has to be made up of valid coins!
+//	}
 }
