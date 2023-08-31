@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.BigDecimalConversion;
 
 public class VendingMachine {
-
+	
 	private final Display display;
 	private double insertedAmount;
 	private String coinReturn;
@@ -48,7 +48,7 @@ public class VendingMachine {
 		if(coinValue != 0)		
 			insertedAmount += coinValue;
 		else
-			coinReturn += typeOfCoin;
+			coinReturn = typeOfCoin;
 				
 		dispenseIfPossible();
 	}
@@ -62,7 +62,9 @@ public class VendingMachine {
 	private void dispenseIfPossible() {
 		if (itemIsSelected() && insertedAmount >= selectedItem.price) {
 			dispenser = selectedItem.toString();
-			coinReturn += insertedAmount - selectedItem.price;
+			
+			coinReturn = getCoinsForChange(insertedAmount - selectedItem.price);
+			
 			selectedItem = null;
 			insertedAmount = 0;
 		}
@@ -71,6 +73,39 @@ public class VendingMachine {
 	
 	
 	
-	
+	private String getCoinsForChange(double change) {
+		if(change >= ValidCoin.DIME.value ) {
+			return "dime";
+		}
+		return "";
+	}
+
+
+
+
+	private enum ValidCoin {
+
+		QUARTER(0.25),
+		DIME(0.10),
+		NICKEL(0.05);
+		
+		public double value;
+		
+		ValidCoin (double value) {
+			this.value = value;
+		}
+		
+		public static double valueOfCoin(String typeOfCoin) {
+			
+			String type = typeOfCoin.toUpperCase();
+			double result = 0;
+			for (ValidCoin c : ValidCoin.values()) {
+				if(type.equals(c.toString()))
+					result = c.value;
+			}
+			
+			return result;
+		}
+	}
 	
 }

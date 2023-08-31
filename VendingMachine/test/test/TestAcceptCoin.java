@@ -64,15 +64,15 @@ class TestAcceptCoin {
 		assertTrue(vendingMachine.displayMessage().contains("0.25"));
 	}
 	
-	@Test
-	void shouldGetValueOfCoin() {
-		assertEquals(0.25, ValidCoin.valueOfCoin("quarter"));
-	}
-	
-	@Test
-	void shouldGetValueOfFakeCoin() {
-		assertEquals(0.00, ValidCoin.valueOfCoin("fake coin that dont exist"));
-	}
+//	@Test // HIDDEN BECAUSE ValidCoin is private enum 
+//	void shouldGetValueOfCoin() {
+//		assertEquals(0.25, ValidCoin.valueOfCoin("quarter"));
+//	}
+//	
+//	@Test
+//	void shouldGetValueOfFakeCoin() {
+//		assertEquals(0.00, ValidCoin.valueOfCoin("fake coin that dont exist"));
+//	}
 	
 	@Test
 	void shouldSayThankYouThenInsertCoinIfDispensed() {
@@ -99,12 +99,12 @@ class TestAcceptCoin {
 		assertEquals("CANDY", vendingMachine.dispenser());
 	}
 	
-//	@Test
-//	void shouldDispenseIfYouSelectItemAfterInserting1EnoughCoins() {
-//		vm.insert("quarter");
-//		vm.insert("quarter");
-//		vm.insert("quarter");
-//		vm.selectItem("candy");
-//		assertEquals(0.1, vm.coinReturn()); // change has to be made up of valid coins!
-//	}
+	@Test
+	void shouldReturnDimeAsChange() {
+		vendingMachine.insert("quarter");
+		vendingMachine.insert("quarter");
+		vendingMachine.insert("quarter");
+		vendingMachine.selectItem("candy");
+		assertEquals("dime", vendingMachine.coinReturn()); // change has to be made up of valid coins!
+	}
 }

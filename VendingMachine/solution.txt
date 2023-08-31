@@ -2,13 +2,12 @@ Item value being written both in tests and in code
 is bad. It should only remain in the code.
 Also item names, coin names...
 
-Our coin returns functions as a value holder (with invalid coins having no value)
-This is wrong. Enum for valid coins kinda makes sense, but invalid coins can be
-any string maybe.
+****Penny rejection means the same string shows up in the coinReturn.
 
-Penny rejection means the same string shows up in the coinReturn.
-
-Change cannot have a double value, it should return valid coins.
 
 im testing the display and the model in the same test case...
 This makes sense, because they share the same setup.
+
+
+Coinreturn cannot have a float value, it should return valid coins.
+For that to happen, it needs to calculate the change, then return it as coins.
