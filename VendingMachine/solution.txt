@@ -2,12 +2,3 @@ Item value being written both in tests and in code
 is bad. It should only remain in the code.
 Also item names, coin names...
 
-****Penny rejection means the same string shows up in the coinReturn.
-
-
-im testing the display and the model in the same test case...
-This makes sense, because they share the same setup.
-
-
-Coinreturn cannot have a float value, it should return valid coins.
-For that to happen, it needs to calculate the change, then return it as coins.

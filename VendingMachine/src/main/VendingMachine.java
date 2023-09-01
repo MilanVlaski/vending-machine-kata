@@ -61,8 +61,9 @@ public class VendingMachine {
 
 	private void dispenseIfPossible() {
 		if (itemIsSelected() && insertedAmount >= selectedItem.price) {
-			dispenser = selectedItem.toString();		
-			coinReturn = getCoinsFor(subtract(insertedAmount, selectedItem.price));	
+			dispenser = selectedItem.toString();
+			double change = subtract(insertedAmount, selectedItem.price);
+			coinReturn = amountToCoins(change);	
 			selectedItem = null;
 			insertedAmount = 0;
 		}
@@ -74,15 +75,14 @@ public class VendingMachine {
 				.doubleValue();
 	}
 	
-	private static String getCoinsFor(double amount) {
+	private static String amountToCoins(double amount) {
 		String result = "";
 		while(amount > 0) {
-			for (ValidCoin coin : ValidCoin.values()) {
-				if(amount >= coin.value) {
-					result += coin.toString();
-					amount = subtract(amount, coin.value);
-				}
-			}
+			// This coin is never null. But if the machine runs out of coins,
+			// we will get a bunch of exceptions. We should deal with them.
+			ValidCoin coin = ValidCoin.largestCoinWorthLessThan(amount);
+			result += coin.toString();
+			amount = subtract(amount, coin.value);
 		}
 		return result;
 	}
@@ -101,7 +101,16 @@ public class VendingMachine {
 		ValidCoin (double value) {
 			this.value = value;
 		}
-		
+	// If the amount can't be properly represented with coins, we can't deal with it
+		public static ValidCoin largestCoinWorthLessThan(double amount) {
+			for (ValidCoin coin : ValidCoin.values()) {
+				if(coin.value <= amount) {
+					return coin;
+				}
+			}
+			return null;
+		}
+
 		public static double valueOfCoin(String typeOfCoin) {
 			
 			double result = 0;
