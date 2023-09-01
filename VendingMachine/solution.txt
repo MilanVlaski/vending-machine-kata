@@ -1,4 +1,6 @@
 Item value being written both in tests and in code
 is bad. It should only remain in the code.
-Also item names, coin names...
+Also item names.
 
+CoinReturn bi trebao biti objekat sa listom coinsa.
+I ti coinsi se vracaju kao stringovi. ("dime, quarter")

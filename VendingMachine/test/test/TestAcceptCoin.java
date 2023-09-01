@@ -47,13 +47,13 @@ class TestAcceptCoin {
 	
 	@Test
 	void shouldDispenseColaIfEnoughMoneyInserted() {
-		vendingMachine.selectItem("cola");
+		vendingMachine.selectItem(Item.COLA);
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		assertEquals(0, vendingMachine.insertedAmount());
-		assertTrue(vendingMachine.dispenser().contains("COLA"));
+		assertTrue(vendingMachine.dispenser().contains(Item.COLA.toString()));
 	}
 	
 //	@Test // HIDDEN BECAUSE ValidCoin is private enum 
@@ -68,7 +68,7 @@ class TestAcceptCoin {
 	
 	@Test
 	void shouldSayThankYouThenInsertCoinIfDispensed() {
-		vendingMachine.selectItem("chips");
+		vendingMachine.selectItem(Item.CHIPS);
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		assertEquals(Item.CHIPS.toString(), vendingMachine.dispenser());
@@ -77,7 +77,7 @@ class TestAcceptCoin {
 	
 	@Test
 	void shouldDisplayPriceOfItemIfNotEnoughMoney() {
-		vendingMachine.selectItem("cola");
+		vendingMachine.selectItem(Item.COLA);
 		vendingMachine.insert("quarter");
 		assertTrue(vendingMachine.displayMessage().contains("PRICE = 1.00"));
 	}
@@ -87,8 +87,8 @@ class TestAcceptCoin {
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
-		vendingMachine.selectItem("candy");
-		assertEquals("CANDY", vendingMachine.dispenser());
+		vendingMachine.selectItem(Item.CANDY);
+		assertEquals(Item.CANDY.toString(), vendingMachine.dispenser());
 	}
 	
 	@Test
@@ -97,7 +97,7 @@ class TestAcceptCoin {
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
-		vendingMachine.selectItem("candy");
+		vendingMachine.selectItem(Item.CANDY);
 		assertTrue(vendingMachine.coinReturn().contains("dime"));
 		assertTrue(vendingMachine.coinReturn().contains("quarter"));
 	}

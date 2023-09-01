@@ -53,9 +53,8 @@ public class VendingMachine {
 		dispenseIfPossible();
 	}
 	
-	public void selectItem(String item) {		
-		String myItem = item.toUpperCase();
-		selectedItem = Item.valueOf(myItem);
+	public void selectItem(Item item) {		
+		selectedItem = item;
 		dispenseIfPossible();
 	}
 
