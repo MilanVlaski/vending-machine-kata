@@ -79,7 +79,8 @@ public class VendingMachine {
 		String result = "";
 		while(amount > 0) {
 			// This coin is never null. But if the machine runs out of coins,
-			// we will get a bunch of exceptions. We should deal with them.
+			// we will get a bunch of exceptions. We CAN just not return change...
+			// but this kind of thing is up to the business
 			ValidCoin coin = ValidCoin.largestCoinWorthLessThan(amount);
 			result += coin.toString();
 			amount = subtract(amount, coin.value);
@@ -91,7 +92,7 @@ public class VendingMachine {
 
 
 	private enum ValidCoin {
-
+		// valid coins must go in descending order, otherwise largestCoin method breaks
 		QUARTER(0.25),
 		DIME(0.10),
 		NICKEL(0.05);
