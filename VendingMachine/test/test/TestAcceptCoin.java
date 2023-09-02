@@ -3,6 +3,9 @@ package test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,7 +45,7 @@ class TestAcceptCoin {
 		vendingMachine.insert("penny");
 		assertEquals(0, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
-		assertTrue(vendingMachine.coinReturn().contains("penny"));
+		assertTrue(vendingMachine.coinReturnContains("penny"));
 	}
 	
 	@Test
@@ -53,7 +56,7 @@ class TestAcceptCoin {
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		assertEquals(0, vendingMachine.insertedAmount());
-		assertTrue(vendingMachine.dispenser().contains(Item.COLA.toString()));
+		assertTrue(vendingMachine.dispenserContains(Item.COLA));
 	}
 	
 //	@Test // HIDDEN BECAUSE ValidCoin is private enum 
@@ -71,7 +74,7 @@ class TestAcceptCoin {
 		vendingMachine.selectItem(Item.CHIPS);
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
-		assertEquals(Item.CHIPS.toString(), vendingMachine.dispenser());
+		assertTrue(vendingMachine.dispenserContains(Item.CHIPS));
 		assertTrue(vendingMachine.displayMessage().contains("THANK YOU"));
 	}
 	
@@ -88,17 +91,25 @@ class TestAcceptCoin {
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.selectItem(Item.CANDY);
-		assertEquals(Item.CANDY.toString(), vendingMachine.dispenser());
+		assertTrue(vendingMachine.dispenserContains(Item.CANDY));
 	}
 	
 	@Test
-	void shouldReturnChange() {
+	void shouldReturnChangeAfterPurchase() {
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.selectItem(Item.CANDY);
-		assertTrue(vendingMachine.coinReturn().contains("dime"));
-		assertTrue(vendingMachine.coinReturn().contains("quarter"));
+		assertTrue(vendingMachine.coinReturnContains("dime"));
+		assertTrue(vendingMachine.coinReturnContains("quarter"));
+	}
+	
+	@Test
+	void shouldReturnInsertedCoins() {
+		vendingMachine.insert("quarter");
+		vendingMachine.returnCoins();
+		assertTrue(vendingMachine.coinReturnContains("quarter"));
+		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
 	}
 }

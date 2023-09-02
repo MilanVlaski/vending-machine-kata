@@ -1,15 +1,15 @@
 package main;
 
 import java.math.BigDecimal;
-
-import org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.BigDecimalConversion;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VendingMachine {
 	
 	private final Display display;
 	private double insertedAmount;
-	private String coinReturn;
-	private String dispenser;
+	private List<String> coinReturn = new ArrayList<>();
+	private List<Item> dispenser = new ArrayList<>();
 	private Item selectedItem;
 	
 	public VendingMachine() {
@@ -22,11 +22,8 @@ public class VendingMachine {
 	public double insertedAmount() {
 		return insertedAmount;
 	}
-	public String coinReturn() {
-		return coinReturn;
-	}
-	public String dispenser() {
-		return dispenser;
+	public boolean dispenserContains(Item item) {
+		return dispenser.contains(item);
 	}
 	public Item selectedItem() {
 		return selectedItem;
@@ -35,20 +32,23 @@ public class VendingMachine {
 		return selectedItem != null;
 	}
 	public boolean dispenserEmpty() {
-		return dispenser == null;
+		return dispenser.isEmpty();
 	}
 	public Display display() {
 		return display;
 	}
+	public boolean coinReturnContains(String coin) {
+		return coinReturn.contains(coin);
+	}
 	
-	public void insert(String typeOfCoin) {
+	public void insert(String coin) {
 		
-		double coinValue = ValidCoin.valueOfCoin(typeOfCoin);
+		double coinValue = ValidCoin.valueOfCoin(coin);
 		
 		if(coinValue != 0)		
 			insertedAmount += coinValue;
 		else
-			coinReturn = typeOfCoin;
+			coinReturn.add(coin);
 				
 		dispenseIfPossible();
 	}
@@ -60,9 +60,9 @@ public class VendingMachine {
 
 	private void dispenseIfPossible() {
 		if (itemIsSelected() && insertedAmount >= selectedItem.price) {
-			dispenser = selectedItem.toString();
+			dispenser.add(selectedItem);
 			double change = subtract(insertedAmount, selectedItem.price);
-			coinReturn = amountToCoins(change);	
+			coinReturn.addAll(amountToCoins(change));
 			selectedItem = null;
 			insertedAmount = 0;
 		}
@@ -74,19 +74,22 @@ public class VendingMachine {
 				.doubleValue();
 	}
 	
-	private static String amountToCoins(double amount) {
-		String result = "";
+	private static List<String> amountToCoins(double amount) {
+		List<String> result = new ArrayList<>();
 		while(amount > 0) {
 			// This coin is never null. But if the machine runs out of coins,
 			// we will get a bunch of exceptions. We CAN just not return change...
 			// but this kind of thing is up to the business
 			ValidCoin coin = ValidCoin.largestCoinWorthLessThan(amount);
-			result += coin.toString();
+			result.add(coin.toString());
 			amount = subtract(amount, coin.value);
 		}
 		return result;
 	}
 
+	public void returnCoins() {
+		coinReturn.addAll(amountToCoins(insertedAmount));
+	}
 
 
 
@@ -127,5 +130,10 @@ public class VendingMachine {
 			return name().toLowerCase();
 		}
 	}
+
+
+
+
+
 	
 }

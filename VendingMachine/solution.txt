@@ -4,3 +4,6 @@ Also item names.
 
 CoinReturn bi trebao biti objekat sa listom coinsa.
 I ti coinsi se vracaju kao stringovi. ("dime, quarter")
+
+instead of testing that display is showing "thank you" the display can be in 
+a thankful state or something

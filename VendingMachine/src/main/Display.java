@@ -3,9 +3,9 @@ package main;
 public class Display {
 
 	private final VendingMachine vendingMachine;
-	private String message = "INSERT COIN";
-	private String amount = "0.00 $";
-	private String itemPrice = "";
+	private String message;
+	private String amount;
+	private String itemPrice;
 	
 	public Display (VendingMachine vm) {
 		this.vendingMachine = vm;
@@ -21,8 +21,7 @@ public class Display {
 		
 		if(vendingMachine.itemIsSelected()) {
 			itemPrice = "PRICE = " + formatDollar(vendingMachine.selectedItem().price);
-		}
-		else {
+		} else {
 			itemPrice = "";		
 			if(!vendingMachine.dispenserEmpty()) {
 				message = "THANK YOU";
