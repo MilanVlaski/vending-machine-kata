@@ -7,9 +7,9 @@ import java.util.List;
 public class VendingMachine {
 	
 	private final Display display;
+	private final List<String> coinReturn = new ArrayList<>();
+	private final List<Item> dispenser = new ArrayList<>();
 	private double insertedAmount;
-	private List<String> coinReturn = new ArrayList<>();
-	private List<Item> dispenser = new ArrayList<>();
 	private Item selectedItem;
 	
 	public VendingMachine() {
@@ -90,50 +90,5 @@ public class VendingMachine {
 	public void returnCoins() {
 		coinReturn.addAll(amountToCoins(insertedAmount));
 	}
-
-
-
-	private enum ValidCoin {
-		// valid coins must go in descending order, otherwise largestCoin method breaks
-		QUARTER(0.25),
-		DIME(0.10),
-		NICKEL(0.05);
-		
-		public double value;
-		
-		ValidCoin (double value) {
-			this.value = value;
-		}
-	// If the amount can't be properly represented with coins, we can't deal with it
-		public static ValidCoin largestCoinWorthLessThan(double amount) {
-			for (ValidCoin coin : ValidCoin.values()) {
-				if(coin.value <= amount) {
-					return coin;
-				}
-			}
-			return null;
-		}
-
-		public static double valueOfCoin(String typeOfCoin) {
-			
-			double result = 0;
-			for (ValidCoin c : ValidCoin.values()) {
-				if(typeOfCoin.equals(c.toString()))
-					result = c.value;
-			}
-			
-			return result;
-		}
-		
-		@Override
-		public String toString() {
-			return name().toLowerCase();
-		}
-	}
-
-
-
-
-
 	
 }

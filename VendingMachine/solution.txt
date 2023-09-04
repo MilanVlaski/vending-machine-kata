@@ -1,9 +1,10 @@
-Item value being written both in tests and in code
-is bad. It should only remain in the code.
-Also item names.
-
-CoinReturn bi trebao biti objekat sa listom coinsa.
-I ti coinsi se vracaju kao stringovi. ("dime, quarter")
-
 instead of testing that display is showing "thank you" the display can be in 
 a thankful state or something
+
+STOCK: ***you should be able to add x items to
+that item's stock
+when you buy an item, stock decreases by one
+when its out of stock, and you try to buy it
+it displays the out of stock message
+
+Similar for coins.

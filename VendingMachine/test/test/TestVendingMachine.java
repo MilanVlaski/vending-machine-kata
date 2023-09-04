@@ -1,21 +1,21 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import main.Item;
+import main.Stock;
+import main.ValidCoin;
 import main.VendingMachine;
 
-class TestAcceptCoin {
+class TestVendingMachine {
 
 	VendingMachine vendingMachine;
-	
+
 	@BeforeEach
 	void setup() {
 		vendingMachine = new VendingMachine();
@@ -58,16 +58,6 @@ class TestAcceptCoin {
 		assertEquals(0, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.dispenserContains(Item.COLA));
 	}
-	
-//	@Test // HIDDEN BECAUSE ValidCoin is private enum 
-//	void shouldGetValueOfCoin() {
-//		assertEquals(0.25, ValidCoin.valueOfCoin("quarter"));
-//	}
-//	
-//	@Test
-//	void shouldGetValueOfFakeCoin() {
-//		assertEquals(0.00, ValidCoin.valueOfCoin("fake coin that dont exist"));
-//	}
 	
 	@Test
 	void shouldSayThankYouThenInsertCoinIfDispensed() {
