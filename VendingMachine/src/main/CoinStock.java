@@ -29,7 +29,7 @@ public class CoinStock {
 	}
 	
 	
-	public class OutOfCoins extends Exception {
+	public class OutOfCoins extends RuntimeException {
 		private static final long serialVersionUID = 1L;
 
 		public OutOfCoins(String coin) {

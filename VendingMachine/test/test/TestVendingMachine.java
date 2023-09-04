@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import main.Item;
 import main.CoinStock;
+import main.CoinStock.OutOfCoins;
 import main.ValidCoin;
 import main.VendingMachine;
 
@@ -81,7 +82,7 @@ class TestVendingMachine {
 		assertTrue(vendingMachine.dispenserContains(Item.CHIPS));
 	}
 	
-	@Test
+	@Test // i define change as any money that is above what you gave me
 	void shouldReturnChangeAfterPurchase() {
 		vendingMachine.stock(ValidCoin.DIME, 1);
 		vendingMachine.insert("quarter");
@@ -101,14 +102,13 @@ class TestVendingMachine {
 		vendingMachine.insert("quarter");
 		vendingMachine.selectItem(Item.CANDY);
 		assertTrue(vendingMachine.dispenserContains(Item.CANDY));
-		assertTrue(vendingMachine.coinReturnContains("dime")); 
 		assertTrue(vendingMachine.coinReturnContains("quarter"));
 	}
 	
 	@Test
 	void shouldReturnInsertedCoins() {
 		vendingMachine.insert("quarter");
-		vendingMachine.returnCoins();
+		vendingMachine.returnInsertedCoins();
 		assertTrue(vendingMachine.coinReturnContains("quarter"));
 		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
 	}

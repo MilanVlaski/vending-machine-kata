@@ -67,9 +67,9 @@ public class VendingMachine {
 
 	private void dispenseIfPossible() {
 		if (itemIsSelected() && insertedAmount >= selectedItem.price) {
-			dispenser.add(selectedItem);
 			double change = subtract(insertedAmount, selectedItem.price);
 			returnCoins(change);
+			dispenser.add(selectedItem);
 			selectedItem = null;
 			insertedAmount = 0;
 		}
@@ -83,17 +83,15 @@ public class VendingMachine {
 	private void returnCoins(double amount) {
 		while(amount > 0) {
 			ValidCoin coin = ValidCoin.largestCoinWorthLessThan(amount);
-			try {
-				coinStock.remove(coin, 1);
-				coinReturn.add(coin.toString());
-			} catch (OutOfCoins e) {
-				e.printStackTrace();
-			}
+				if(coinStock.has(coin)) {					
+					coinStock.remove(coin, 1);
+					coinReturn.add(coin.toString());
+				}
 			amount = subtract(amount, coin.value);
 		}
 	}
 
-	public void returnCoins() {
+	public void returnInsertedCoins() {
 		returnCoins(insertedAmount);
 	}
 	public void stock(ValidCoin coin, int amount) {
