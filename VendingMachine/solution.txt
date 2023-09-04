@@ -1,10 +1,4 @@
 instead of testing that display is showing "thank you" the display can be in 
 a thankful state or something
 
-STOCK: ***you should be able to add x items to
-that item's stock
-when you buy an item, stock decreases by one
-when its out of stock, and you try to buy it
-it displays the out of stock message
-
-Similar for coins.
+Coin stock.

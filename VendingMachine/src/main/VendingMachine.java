@@ -4,16 +4,20 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.CoinStock.OutOfCoins;
+
 public class VendingMachine {
 	
 	private final Display display;
+	private final CoinStock coinStock;
 	private final List<String> coinReturn = new ArrayList<>();
 	private final List<Item> dispenser = new ArrayList<>();
 	private double insertedAmount;
 	private Item selectedItem;
 	
 	public VendingMachine() {
-		this.display = new Display(this);
+		display = new Display(this);
+		coinStock = new CoinStock();
 	}
 	public String displayMessage() {
 		display.update();
@@ -42,13 +46,16 @@ public class VendingMachine {
 	}
 	
 	public void insert(String coin) {
-		
+		//repetition!
 		double coinValue = ValidCoin.valueOfCoin(coin);
 		
-		if(coinValue != 0)		
+		if(coinValue != 0) {
 			insertedAmount += coinValue;
-		else
+			coinStock.add(ValidCoin.valueOf(coin.toUpperCase()), 1);
+		}
+		else {			
 			coinReturn.add(coin);
+		}
 				
 		dispenseIfPossible();
 	}
@@ -62,33 +69,35 @@ public class VendingMachine {
 		if (itemIsSelected() && insertedAmount >= selectedItem.price) {
 			dispenser.add(selectedItem);
 			double change = subtract(insertedAmount, selectedItem.price);
-			coinReturn.addAll(amountToCoins(change));
+			returnCoins(change);
 			selectedItem = null;
 			insertedAmount = 0;
 		}
 	}
-	
 	private static double subtract(double payment, double price) {
 		return BigDecimal.valueOf(payment)
 				.subtract(BigDecimal.valueOf(price))
 				.doubleValue();
 	}
 	
-	private static List<String> amountToCoins(double amount) {
-		List<String> result = new ArrayList<>();
+	private void returnCoins(double amount) {
 		while(amount > 0) {
-			// This coin is never null. But if the machine runs out of coins,
-			// we will get a bunch of exceptions. We CAN just not return change...
-			// but this kind of thing is up to the business
 			ValidCoin coin = ValidCoin.largestCoinWorthLessThan(amount);
-			result.add(coin.toString());
+			try {
+				coinStock.remove(coin, 1);
+				coinReturn.add(coin.toString());
+			} catch (OutOfCoins e) {
+				e.printStackTrace();
+			}
 			amount = subtract(amount, coin.value);
 		}
-		return result;
 	}
 
 	public void returnCoins() {
-		coinReturn.addAll(amountToCoins(insertedAmount));
+		returnCoins(insertedAmount);
+	}
+	public void stock(ValidCoin coin, int amount) {
+		coinStock.add(coin, amount);
 	}
 	
 }

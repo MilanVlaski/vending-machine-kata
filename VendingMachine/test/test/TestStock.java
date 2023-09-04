@@ -7,17 +7,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import main.Stock;
-import main.Stock.OutOfCoin;
+import main.CoinStock;
+import main.CoinStock.OutOfCoins;
 import main.ValidCoin;
 
 public class TestStock {
 
-	Stock stock;
+	CoinStock stock;
 
 	@BeforeEach
 	void setup() {
-		stock = new Stock();
+		stock = new CoinStock();
 	}
 
 	@Test
@@ -34,7 +34,7 @@ public class TestStock {
 	}
 
 	@Test
-	void shouldRemoveOneQuarter() throws OutOfCoin {
+	void shouldRemoveOneQuarter() throws OutOfCoins {
 		stock.add(ValidCoin.QUARTER, 1);
 		stock.remove(ValidCoin.QUARTER, 1);
 		assertFalse(stock.has(ValidCoin.QUARTER));
@@ -42,6 +42,6 @@ public class TestStock {
 
 	@Test
 	void shouldThrowOutOfCoin() {
-		assertThrows(OutOfCoin.class, () -> stock.remove(ValidCoin.QUARTER, 1));
+		assertThrows(OutOfCoins.class, () -> stock.remove(ValidCoin.QUARTER, 1));
 	}
-s}
+}

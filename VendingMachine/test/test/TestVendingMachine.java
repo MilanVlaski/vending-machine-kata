@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import main.Item;
-import main.Stock;
+import main.CoinStock;
 import main.ValidCoin;
 import main.VendingMachine;
 
@@ -50,13 +50,11 @@ class TestVendingMachine {
 	
 	@Test
 	void shouldDispenseColaIfEnoughMoneyInserted() {
-		vendingMachine.selectItem(Item.COLA);
-		vendingMachine.insert("quarter");
-		vendingMachine.insert("quarter");
+		vendingMachine.selectItem(Item.CHIPS);
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		assertEquals(0, vendingMachine.insertedAmount());
-		assertTrue(vendingMachine.dispenserContains(Item.COLA));
+		assertTrue(vendingMachine.dispenserContains(Item.CHIPS));
 	}
 	
 	@Test
@@ -79,19 +77,31 @@ class TestVendingMachine {
 	void shouldDispenseIfYouSelectItemAfterInsertingEnoughCoins() {
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
-		vendingMachine.insert("quarter");
-		vendingMachine.selectItem(Item.CANDY);
-		assertTrue(vendingMachine.dispenserContains(Item.CANDY));
+		vendingMachine.selectItem(Item.CHIPS);
+		assertTrue(vendingMachine.dispenserContains(Item.CHIPS));
 	}
 	
 	@Test
 	void shouldReturnChangeAfterPurchase() {
+		vendingMachine.stock(ValidCoin.DIME, 1);
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.selectItem(Item.CANDY);
-		assertTrue(vendingMachine.coinReturnContains("dime"));
+		assertTrue(vendingMachine.coinReturnContains("dime")); 
+		assertTrue(vendingMachine.coinReturnContains("quarter"));
+	}
+	
+	@Test
+	void shouldDispense_ButNotMakeChangeIfImpossibleTo() {
+		vendingMachine.insert("quarter");
+		vendingMachine.insert("quarter");
+		vendingMachine.insert("quarter");
+		vendingMachine.insert("quarter");
+		vendingMachine.selectItem(Item.CANDY);
+		assertTrue(vendingMachine.dispenserContains(Item.CANDY));
+		assertTrue(vendingMachine.coinReturnContains("dime")); 
 		assertTrue(vendingMachine.coinReturnContains("quarter"));
 	}
 	
