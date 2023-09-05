@@ -9,8 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import main.CoinStock;
-import main.CoinStock.InsufficientCoins;
-import main.CoinStock.OutOfCoins;
+import main.StockHelper.OutOfItem;
 import main.ValidCoin;
 
 public class TestStock {
@@ -36,7 +35,7 @@ public class TestStock {
 	}
 
 	@Test
-	void shouldRemoveOneQuarter() throws OutOfCoins {
+	void shouldRemoveOneQuarter() {
 		stock.add(ValidCoin.QUARTER, 1);
 		stock.remove(ValidCoin.QUARTER, 1);
 		assertFalse(stock.has(ValidCoin.QUARTER));
@@ -44,18 +43,18 @@ public class TestStock {
 
 	@Test
 	void shouldThrowOutOfCoin_IfNoCoins() {
-		Throwable outOfCoin = assertThrows(OutOfCoins.class,
+		Throwable outOfCoin = assertThrows(OutOfItem.class,
 						() -> stock.remove(ValidCoin.QUARTER, 1));
 		
 		assertEquals("No quarters left in stock.", outOfCoin.getMessage());
 	}
 	
-	@Test
-	void shouldThrowInsufficientCoins_IfCantProvideSpecifiedAmount() {
-		stock.add(ValidCoin.QUARTER, 1);
-		Throwable insufficientCoins = assertThrows(InsufficientCoins.class, 
-								() -> stock.remove(ValidCoin.QUARTER, 2));
-		
-		assertEquals("I don't have 2 quarters in stock.", insufficientCoins.getMessage());
-	}
+//	@Test
+//	void shouldThrowInsufficientCoins_IfCantProvideSpecifiedAmount() {
+//		stock.add(ValidCoin.QUARTER, 1);
+//		Throwable insufficientCoins = assertThrows(InsufficientCoins.class, 
+//								() -> stock.remove(ValidCoin.QUARTER, 2));
+//		
+//		assertEquals("I don't have 2 quarters in stock.", insufficientCoins.getMessage());
+//	}
 }

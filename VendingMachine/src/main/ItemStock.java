@@ -2,7 +2,7 @@ package main;
 
 import java.util.HashMap;
 
-import main.CoinStock.OutOfCoins;
+import main.StockHelper.OutOfItem;
 
 public class ItemStock {
 
@@ -23,17 +23,6 @@ public class ItemStock {
 	}
 
 	public void remove(Item item, int amount) throws OutOfItem {
-		if (!has(item)) {
-			throw new OutOfItem(item.toString());
-		}
 		add(item, -amount);
-	}
-
-	public class OutOfItem extends RuntimeException {
-		private static final long serialVersionUID = 1L;
-
-		public OutOfItem(String item) {
-			super("No " + item + "s left in stock.");
-		}
 	}
 }
