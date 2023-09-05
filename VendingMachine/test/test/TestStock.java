@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import main.CoinStock;
+import main.CoinStock.InsufficientCoins;
 import main.CoinStock.OutOfCoins;
 import main.ValidCoin;
 
@@ -41,7 +43,19 @@ public class TestStock {
 	}
 
 	@Test
-	void shouldThrowOutOfCoin() {
-		assertThrows(OutOfCoins.class, () -> stock.remove(ValidCoin.QUARTER, 1));
+	void shouldThrowOutOfCoin_IfNoCoins() {
+		Throwable outOfCoin = assertThrows(OutOfCoins.class,
+						() -> stock.remove(ValidCoin.QUARTER, 1));
+		
+		assertEquals("No quarters left in stock.", outOfCoin.getMessage());
+	}
+	
+	@Test
+	void shouldThrowInsufficientCoins_IfCantProvideSpecifiedAmount() {
+		stock.add(ValidCoin.QUARTER, 1);
+		Throwable insufficientCoins = assertThrows(InsufficientCoins.class, 
+								() -> stock.remove(ValidCoin.QUARTER, 2));
+		
+		assertEquals("I don't have 2 quarters in stock.", insufficientCoins.getMessage());
 	}
 }

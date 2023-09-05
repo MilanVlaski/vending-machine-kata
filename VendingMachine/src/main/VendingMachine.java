@@ -46,14 +46,12 @@ public class VendingMachine {
 	}
 	
 	public void insert(String coin) {
-		//repetition!
 		double coinValue = ValidCoin.valueOfCoin(coin);
 		
 		if(coinValue != 0) {
 			insertedAmount += coinValue;
 			coinStock.add(ValidCoin.valueOf(coin.toUpperCase()), 1);
-		}
-		else {			
+		} else {			
 			coinReturn.add(coin);
 		}
 				
@@ -63,6 +61,14 @@ public class VendingMachine {
 	public void selectItem(Item item) {		
 		selectedItem = item;
 		dispenseIfPossible();
+	}
+	
+	public void returnInsertedCoins() {
+		returnCoins(insertedAmount);
+	}
+	
+	public void stock(ValidCoin coin, int amount) {
+		coinStock.add(coin, amount);
 	}
 
 	private void dispenseIfPossible() {
@@ -74,6 +80,7 @@ public class VendingMachine {
 			insertedAmount = 0;
 		}
 	}
+	
 	private static double subtract(double payment, double price) {
 		return BigDecimal.valueOf(payment)
 				.subtract(BigDecimal.valueOf(price))
@@ -91,11 +98,5 @@ public class VendingMachine {
 		}
 	}
 
-	public void returnInsertedCoins() {
-		returnCoins(insertedAmount);
-	}
-	public void stock(ValidCoin coin, int amount) {
-		coinStock.add(coin, amount);
-	}
 	
 }

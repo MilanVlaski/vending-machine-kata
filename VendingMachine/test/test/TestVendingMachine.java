@@ -90,6 +90,7 @@ class TestVendingMachine {
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.selectItem(Item.CANDY);
+		
 		assertTrue(vendingMachine.coinReturnContains("dime")); 
 		assertTrue(vendingMachine.coinReturnContains("quarter"));
 	}
