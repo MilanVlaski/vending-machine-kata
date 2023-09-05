@@ -6,23 +6,21 @@ import main.StockHelper.OutOfItem;
 
 public class ItemStock {
 
-	private final HashMap<Item, Integer> itemMap = new HashMap<>();
-
+	private final StockHelper helper;
+	
 	public ItemStock() {
-		for (Item item : Item.values()) {
-			itemMap.put(item, 0);
-		}
-	}
+		helper = new StockHelper(Item.values());
+	}	
 
 	public boolean has(Item item) {
-		return itemMap.get(item) > 0;
+		return helper.has(item);
 	}
-
-	public void add(Item coin, int amount) {
-		itemMap.put(coin, itemMap.get(coin) + amount);
+	
+	public void add(Item item, int amount) {
+		helper.add(item, amount);
 	}
-
-	public void remove(Item item, int amount) throws OutOfItem {
-		add(item, -amount);
+	
+	public void remove(Item item, int amount) {
+		helper.remove(item, amount);
 	}
 }

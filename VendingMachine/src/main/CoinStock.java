@@ -1,8 +1,5 @@
 package main;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class CoinStock {
 	
 	private final StockHelper helper;
