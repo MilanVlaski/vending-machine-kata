@@ -3,7 +3,7 @@ package stock;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StockHelper/*<T extends Enum<T>>*/ {
+public class StockHelper {
 	
 	private final Map<Object, Integer> map = new HashMap<>();
 	
