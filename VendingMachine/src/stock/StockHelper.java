@@ -23,14 +23,10 @@ public class StockHelper {
 	}
 	
 	public void remove(Object object, int amount) throws OutOfItem{
-		if(!has(object))
+		if(!has(object) || map.get(object) < amount)
 			throw new OutOfItem(object.toString());
 		
 		add(object, -amount);
-	}
-	
-	public Integer get(Object object) {
-		return map.get(object);
 	}
 	
 	public class OutOfItem extends RuntimeException {

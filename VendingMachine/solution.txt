@@ -2,3 +2,12 @@ instead of testing that display is showing "thank you" the display can be in
 a thankful state or something
 
 Coin stock.
+INSERT COIN is the ready state
+THANK YOU - is a purchase successful state
+SOLD OUT - is an error state
+PRICE = 10 - you show if an item is selected (only in ready state)
+
+Urgently refactor the display method.
+tryToPurchase is called after selecting an item, and in the method, we check
+if item is selected, which is dumb.
+similarly, when called in the insert method.

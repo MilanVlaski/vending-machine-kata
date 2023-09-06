@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import main.VendingMachine;
 import stock.Item;
+import stock.ItemStock;
 import stock.ValidCoin;
 
 class TestVendingMachine {
@@ -65,6 +66,7 @@ class TestVendingMachine {
 		vendingMachine.insert("quarter");
 		assertTrue(vendingMachine.dispenserContains(Item.CHIPS));
 		assertTrue(vendingMachine.displayMessage().contains("THANK YOU"));
+//		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
 	}
 	
 	@Test
@@ -112,5 +114,13 @@ class TestVendingMachine {
 		vendingMachine.returnInsertedCoins();
 		assertTrue(vendingMachine.coinReturnContains("quarter"));
 		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
+	}
+	
+	@Test
+	void shouldDisplayOutOfStock() {
+		vendingMachine.itemStock().remove(Item.CANDY, 1);;
+		vendingMachine.selectItem(Item.CANDY);
+		assertTrue(vendingMachine.displayMessage().contains("SOLD OUT"));
+//		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
 	}
 }

@@ -14,8 +14,10 @@ public class VendingMachine {
 	private final Display display;
 	private final CoinStock coinStock;
 	private final ItemStock itemStock;
+	
 	private final List<String> coinReturn = new ArrayList<>();
 	private final List<Item> dispenser = new ArrayList<>();
+	
 	private double insertedAmount;
 	private Item selectedItem;
 	
@@ -26,7 +28,10 @@ public class VendingMachine {
 	}
 	public String displayMessage() {
 		display.update();
-		return display.show();
+		return display.message();
+	}
+	public ItemStock itemStock() {
+		return itemStock;
 	}
 	public double insertedAmount() {
 		return insertedAmount;
@@ -39,6 +44,9 @@ public class VendingMachine {
 	}
 	public boolean itemIsSelected() {
 		return selectedItem != null;
+	}
+	public boolean isSelectedItemSoldOut() {
+		return itemIsSelected() && !itemStock.has(selectedItem);
 	}
 	public boolean dispenserEmpty() {
 		return dispenser.isEmpty();
@@ -57,16 +65,40 @@ public class VendingMachine {
 			coinStock.add(ValidCoin.valueOf(coin.toUpperCase()), 1);
 		}
 				
-		dispenseIfPossible();
+		tryToPurchase();
 	}
 	
 	public void selectItem(Item item) {		
 		selectedItem = item;
-		dispenseIfPossible();
+		tryToPurchase();
+	}
+	
+
+	private void tryToPurchase() {
+		
+		if(isSelectedItemSoldOut()) {
+			return;			
+		}
+		
+		if (itemIsSelected() && insertedAmount >= selectedItem.price) {
+			double change = subtract(insertedAmount, selectedItem.price);
+			if(itemStock.has(selectedItem)) {
+				dispenseSelectedItem();
+				returnCoins(change);				
+			}
+		}
+	}
+	
+	private void dispenseSelectedItem() {
+		itemStock.remove(selectedItem, 1);
+		dispenser.add(selectedItem);
+		selectedItem = null;
+		insertedAmount = 0;
 	}
 	
 	public void returnInsertedCoins() {
 		returnCoins(insertedAmount);
+		display.update();
 	}
 	
 	public void stock(ValidCoin coin, int amount) {
@@ -75,22 +107,6 @@ public class VendingMachine {
 	
 	public void stock(Item item, int amount) {
 		itemStock.add(item, amount);
-	}
-
-	private void dispenseIfPossible() {
-		if (itemIsSelected() && insertedAmount >= selectedItem.price) {
-			double change = subtract(insertedAmount, selectedItem.price);
-			returnCoins(change);
-			dispenseItem();
-		}
-	}
-	private void dispenseItem() {
-		if(itemStock.has(selectedItem)) {		
-			itemStock.remove(selectedItem, 1);
-			dispenser.add(selectedItem);
-			selectedItem = null;
-			insertedAmount = 0;
-		}
 	}
 	
 	private static double subtract(double payment, double price) {
@@ -109,6 +125,5 @@ public class VendingMachine {
 			amount = subtract(amount, coin.value);
 		}
 	}
-
 	
 }

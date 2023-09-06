@@ -49,12 +49,12 @@ public class TestStock {
 		assertEquals("No quarters left in stock.", outOfCoin.getMessage());
 	}
 	
-//	@Test
-//	void shouldThrowInsufficientCoins_IfCantProvideSpecifiedAmount() {
-//		stock.add(ValidCoin.QUARTER, 1);
-//		Throwable insufficientCoins = assertThrows(InsufficientCoins.class, 
-//								() -> stock.remove(ValidCoin.QUARTER, 2));
-//		
-//		assertEquals("I don't have 2 quarters in stock.", insufficientCoins.getMessage());
-//	}
+	@Test
+	void shouldThrowInsufficientCoins_IfCantProvideSpecifiedAmount() {
+		stock.add(ValidCoin.QUARTER, 1);
+		Throwable insufficientCoins = assertThrows(OutOfItem.class, 
+								() -> stock.remove(ValidCoin.QUARTER, 2));
+		
+		assertEquals("No quarters left in stock.", insufficientCoins.getMessage());
+	}
 }
