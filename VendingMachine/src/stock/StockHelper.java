@@ -40,12 +40,4 @@ public class StockHelper {
 			super("No " + item + "s left in stock.");
 		}
 	}
-	
-	public class InsufficientCoins extends RuntimeException {
-		private static final long serialVersionUID = 1L;
-
-		public InsufficientCoins(String coin, int amount) {
-			super("I don't have " + amount + " " + coin + "s in stock.");
-		}
-	}
 }
