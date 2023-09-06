@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import stock.CoinStock;
+import stock.Item;
+import stock.ItemStock;
+import stock.ValidCoin;
+
 public class VendingMachine {
 	
 	private final Display display;

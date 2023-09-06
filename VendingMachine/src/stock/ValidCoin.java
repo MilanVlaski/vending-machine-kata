@@ -1,4 +1,4 @@
-package main;
+package stock;
 
 public enum ValidCoin {
 	// valid coins must go in descending order, otherwise largestCoin method breaks

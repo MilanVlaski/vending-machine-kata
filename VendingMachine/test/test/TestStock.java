@@ -8,9 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import main.CoinStock;
-import main.StockHelper.OutOfItem;
-import main.ValidCoin;
+import stock.CoinStock;
+import stock.ValidCoin;
+import stock.StockHelper.OutOfItem;
 
 public class TestStock {
 

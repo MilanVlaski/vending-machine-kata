@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import main.Item;
-import main.ValidCoin;
 import main.VendingMachine;
+import stock.Item;
+import stock.ValidCoin;
 
 class TestVendingMachine {
 

@@ -1,4 +1,4 @@
-package main;
+package stock;
 
 public class CoinStock {
 	

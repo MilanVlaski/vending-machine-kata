@@ -1,8 +1,8 @@
-package main;
+package stock;
 
 import java.util.HashMap;
 
-import main.StockHelper.OutOfItem;
+import stock.StockHelper.OutOfItem;
 
 public class ItemStock {
 
