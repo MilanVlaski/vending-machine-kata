@@ -27,7 +27,6 @@ public class VendingMachine {
 		itemStock = new ItemStock();
 	}
 	public String displayMessage() {
-		display.update();
 		return display.message();
 	}
 	public ItemStock itemStock() {
@@ -77,6 +76,7 @@ public class VendingMachine {
 	private void tryToPurchase() {
 		
 		if(isSelectedItemSoldOut()) {
+			display.update();
 			return;			
 		}
 		
@@ -87,6 +87,7 @@ public class VendingMachine {
 				returnCoins(change);				
 			}
 		}
+		display.update();
 	}
 	
 	private void dispenseSelectedItem() {
@@ -98,7 +99,6 @@ public class VendingMachine {
 	
 	public void returnInsertedCoins() {
 		returnCoins(insertedAmount);
-		display.update();
 	}
 	
 	public void stock(ValidCoin coin, int amount) {

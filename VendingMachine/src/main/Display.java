@@ -16,6 +16,7 @@ public class Display {
 	
 	public Display (VendingMachine vendingMachine) {
 		this.vendingMachine = vendingMachine;
+		update();
 	}
 	
 	public String message() {
