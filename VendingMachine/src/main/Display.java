@@ -7,8 +7,8 @@ public class Display {
 	private String amount;
 	private String itemPrice;
 	
-	public Display (VendingMachine vm) {
-		this.vendingMachine = vm;
+	public Display (VendingMachine vendingMachine) {
+		this.vendingMachine = vendingMachine;
 	}
 	
 	public String show() {

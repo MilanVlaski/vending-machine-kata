@@ -17,6 +17,9 @@ class TestVendingMachine {
 	@BeforeEach
 	void setup() {
 		vendingMachine = new VendingMachine();
+		vendingMachine.stock(Item.COLA, 1);
+		vendingMachine.stock(Item.CANDY, 1);
+		vendingMachine.stock(Item.CHIPS, 1);
 	}
 	
 	@Test
