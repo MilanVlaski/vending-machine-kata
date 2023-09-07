@@ -24,7 +24,9 @@ class TestVendingMachine {
 	}
 
 	@Test
-	void shouldSayInsertCoinIfEmpty() { assertTrue(vendingMachine.displayMessage().contains("INSERT COIN")); }
+	void shouldSayInsertCoinIfEmpty() {
+		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
+	}
 
 	@Test
 	void shouldAcceptQuarter() {
@@ -85,7 +87,8 @@ class TestVendingMachine {
 
 	@Test // i define change as any money that is above what you gave me
 	void shouldReturnChangeAfterPurchase() {
-		vendingMachine.coinStock().add(1, ValidCoin.DIME);;
+		vendingMachine.coinStock().add(1, ValidCoin.DIME);
+		;
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");

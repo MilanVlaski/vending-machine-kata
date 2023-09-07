@@ -7,60 +7,17 @@ import java.util.List;
 import stock.CoinStock;
 import stock.ValidCoin;
 
-public class CoinHandler {
+public class MoneyHandler {
 
 	private final CoinStock coinStock;
-	private final List<String> coins = new ArrayList<>();
+	private final List<String> returnedCoins = new ArrayList<>();
 	private double insertedAmount;
 
-	public CoinHandler(CoinStock coinStock) {
+	public MoneyHandler(CoinStock coinStock) {
 		this.coinStock = coinStock;
 	}
 
-	public void returnCoins(double amount) {
-		while (amount > 0) {
-			ValidCoin coin = ValidCoin.largestCoinWorthLessThan(amount);
-			if (coinStock.has(coin)) {
-				returnCoin(coin.toString());
-				coinStock.remove(1, coin);
-			}
-			amount = subtract(amount, coin.value);
-		}
-		insertedAmount = 0;
-	}
-	
-	public boolean contains(String coin) {
-		return coins.contains(coin);
-	}
-
-	public void makeChange(double itemPrice) {
-		double change = subtract(insertedAmount, itemPrice);
-		returnCoins(change);
-	}
-	
-	public void returnCoin(String coin) {
-		coins.add(coin);
-	}
-	
-	private static double subtract(double payment, double price) {
-		return BigDecimal.valueOf(payment)
-				.subtract(BigDecimal.valueOf(price))
-				.doubleValue();
-	}
-
-	public double insertedAmount() {
-		return insertedAmount;
-	}
-	
-	public void addToAmount(double value) {
-		insertedAmount += value;
-	}
-
-	public void returnInsertedCoins() {
-		returnCoins(insertedAmount);
-	}
-
-	public void acceptCoin(String coin) {
+	public void accept(String coin) {
 		double coinValue = ValidCoin.valueOfCoin(coin);
 
 		if (coinValue != 0) {
@@ -71,4 +28,48 @@ public class CoinHandler {
 		}
 		addToAmount(coinValue);
 	}
+
+	private void returnCoins(double amount) {
+		while (amount > 0) {
+			ValidCoin coin = ValidCoin.largestCoinWorthLessThan(amount);
+			if (coinStock.has(coin)) {
+				returnCoin(coin.toString());
+				coinStock.remove(1, coin);
+			}
+			amount = subtract(amount, coin.value);
+		}
+		insertedAmount = 0;
+	}
+
+	public void makeChange(double itemPrice) {
+		double change = subtract(insertedAmount, itemPrice);
+		returnCoins(change);
+	}
+
+	public boolean hasReturned(String coin) {
+		return returnedCoins.contains(coin);
+	}
+
+	private void returnCoin(String coin) {
+		returnedCoins.add(coin);
+	}
+
+	private static double subtract(double payment, double price) {
+		return BigDecimal.valueOf(payment)
+				.subtract(BigDecimal.valueOf(price))
+				.doubleValue();
+	}
+
+	public double insertedAmount() {
+		return insertedAmount;
+	}
+
+	private void addToAmount(double value) {
+		insertedAmount += value;
+	}
+
+	public void returnInsertedCoins() {
+		returnCoins(insertedAmount);
+	}
+
 }

@@ -11,15 +11,15 @@ public class VendingMachine {
 	private final CoinStock coinStock;
 	private final ItemStock itemStock;
 
-	private final CoinHandler coinHandler;
+	private final MoneyHandler moneyHandler;
 	private final Dispenser dispenser;
 
 	public VendingMachine() {
 		display = new Display();
 		coinStock = new CoinStock();
 		itemStock = new ItemStock();
-		coinHandler = new CoinHandler(coinStock);
-		dispenser = new Dispenser(itemStock, coinHandler);
+		moneyHandler = new MoneyHandler(coinStock);
+		dispenser = new Dispenser(itemStock, moneyHandler);
 	}
 
 	public String displayMessage() {
@@ -28,19 +28,23 @@ public class VendingMachine {
 		return display.message();
 	}
 
-	public double insertedAmount() {
-		return coinHandler.insertedAmount();
+	public void selectItem(Item item) {
+		dispenser.select(item);
+		dispenser.tryToPurchase();
 	}
 
 	public void insert(String coin) {
-		coinHandler.acceptCoin(coin);
+		moneyHandler.accept(coin);
 		if (itemIsSelected())
 			dispenser.tryToPurchase();
 	}
 
-	public void selectItem(Item item) {
-		dispenser.select(item);
-		dispenser.tryToPurchase();
+	public void giveBackCoins() {
+		moneyHandler.returnInsertedCoins();
+	}
+
+	public double insertedAmount() {
+		return moneyHandler.insertedAmount();
 	}
 
 	public double selectedItemPrice() {
@@ -56,11 +60,7 @@ public class VendingMachine {
 	}
 
 	public boolean isReturned(String coin) {
-		return coinHandler.contains(coin);
-	}
-
-	public void giveBackCoins() {
-		coinHandler.returnInsertedCoins();
+		return moneyHandler.hasReturned(coin);
 	}
 
 	public CoinStock coinStock() {
@@ -70,7 +70,7 @@ public class VendingMachine {
 	public ItemStock itemStock() {
 		return itemStock;
 	}
-	
+
 	public PurchaseState purchaseState() {
 		return dispenser.purchaseState();
 	}

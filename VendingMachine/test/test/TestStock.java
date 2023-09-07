@@ -9,8 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import stock.CoinStock;
-import stock.ValidCoin;
 import stock.StockHelper.OutOfItem;
+import stock.ValidCoin;
 
 public class TestStock {
 

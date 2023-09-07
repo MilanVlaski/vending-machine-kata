@@ -32,7 +32,7 @@ public class StockHelper {
 	public class OutOfItem extends RuntimeException {
 		private static final long serialVersionUID = 1L;
 
-		public OutOfItem(String item) {
+		private OutOfItem(String item) {
 			super("No " + item + "s left in stock.");
 		}
 	}
