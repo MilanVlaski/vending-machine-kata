@@ -26,7 +26,7 @@ public class MoneyHandler {
 		} else {
 			returnCoin(coin);
 		}
-		addToAmount(coinValue);
+		insertedAmount += coinValue;
 	}
 
 	private void returnCoins(double amount) {
@@ -38,7 +38,7 @@ public class MoneyHandler {
 			}
 			amount = subtract(amount, coin.value);
 		}
-		insertedAmount = 0;
+		insertedAmount = amount;
 	}
 
 	public void makeChange(double itemPrice) {
@@ -54,22 +54,18 @@ public class MoneyHandler {
 		returnedCoins.add(coin);
 	}
 
-	private static double subtract(double payment, double price) {
-		return BigDecimal.valueOf(payment)
-				.subtract(BigDecimal.valueOf(price))
-				.doubleValue();
-	}
-
 	public double insertedAmount() {
 		return insertedAmount;
 	}
 
-	private void addToAmount(double value) {
-		insertedAmount += value;
-	}
-
 	public void returnInsertedCoins() {
 		returnCoins(insertedAmount);
+	}
+	
+	private static double subtract(double payment, double price) {
+		return BigDecimal.valueOf(payment)
+				.subtract(BigDecimal.valueOf(price))
+				.doubleValue();
 	}
 
 }
