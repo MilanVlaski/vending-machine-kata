@@ -15,16 +15,18 @@ public class VendingMachine {
 	private final CoinReturn coinReturn;
 	private final Dispenser dispenser;
 
-	private double insertedAmount;
-	private Item selectedItem;
 	public PurchaseState purchaseState = PurchaseState.IDLE;
+
+	public PurchaseState purchaseState() {
+		return purchaseState;
+	}
 
 	public VendingMachine() {
 		display = new Display();
 		coinStock = new CoinStock();
 		itemStock = new ItemStock();
 		coinReturn = new CoinReturn(coinStock);
-		dispenser = new Dispenser(itemStock);
+		dispenser = new Dispenser(itemStock, coinReturn);
 	}
 
 	public String displayMessage() {
@@ -34,11 +36,11 @@ public class VendingMachine {
 	}
 
 	public double insertedAmount() {
-		return insertedAmount;
+		return coinReturn.insertedAmount();
 	}
 
 	public Item selectedItem() {
-		return selectedItem;
+		return dispenser.selectedItem();
 	}
 	
 	public void insert(String coin) {
@@ -50,61 +52,50 @@ public class VendingMachine {
 		} else {			
 			coinReturn.returnCoin(coin);
 		}
-		insertedAmount += coinValue;
+		coinReturn.addToAmount(coinValue);
 		
 		if (itemIsSelected())
-			tryToPurchase();
+			dispenser.tryToPurchase();
 	}
 
 	public void selectItem(Item item) {
-		selectedItem = item;
-		tryToPurchase();
+		dispenser.select(item);
+		dispenser.tryToPurchase();
 	}
 
 	private void tryToPurchase() {
-		if (!itemStock.has(selectedItem)) {
+		if (!dispenser.isSelectedItemAvailable()) {
 			purchaseState = PurchaseState.SOLD_OUT;
-			deselectItem();
-		} else if (insertedAmount >= selectedItem.price) {
-			purchase(insertedAmount, selectedItem);
+			dispenser.deselect();
+		} else if (dispenser.enoughMoneyForItem(insertedAmount())) {
+			purchase(insertedAmount(), dispenser.priceOfSelection());
 		}
 	}
 	
-	private void purchase(double insertedAmount, Item selectedItem) {
+	public double selectedItemPrice() {
+		return dispenser.priceOfSelection();
+	}
+	
+	private void purchase(double insertedAmount, double price) {
 		purchaseState = PurchaseState.SUCCESS;
-		dispenseItem(selectedItem);
-		coinReturn.makeChange(insertedAmount, selectedItem.price);
-		deselectItem();
-		resetInsertedAmount();
+		dispenser.dispenseSelected();
+		coinReturn.makeChange(insertedAmount(), price);
 	}
 	
 	public boolean dispenserContains(Item item) {
 		return dispenser.contains(item);
 	}
-
-	private void deselectItem() {
-		selectedItem = null;
-	}
-	
-	private void resetInsertedAmount() {
-		insertedAmount = 0;
-	}
 	
 	public boolean itemIsSelected() {
-		return selectedItem != null;
+		return dispenser.itemIsSelected();
 	}
 
-	public boolean coinIsReturned(String coin) {
+	public boolean isReturned(String coin) {
 		return coinReturn.contains(coin);
 	}
 
-	private void dispenseItem(Item selectedItem) {
-		dispenser.dispense(selectedItem);
-	}
-
-	public void returnInsertedCoins() {
-		coinReturn.returnCoins(insertedAmount);
-		resetInsertedAmount(); 
+	public void returnCoins() {
+		coinReturn.returnInsertedCoins();
 	}
 	
 	public CoinStock coinStock() {

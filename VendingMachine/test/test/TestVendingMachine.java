@@ -46,7 +46,7 @@ class TestVendingMachine {
 		vendingMachine.insert("penny");
 		assertEquals(0, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
-		assertTrue(vendingMachine.coinIsReturned("penny"));
+		assertTrue(vendingMachine.isReturned("penny"));
 	}
 
 	@Test
@@ -93,8 +93,8 @@ class TestVendingMachine {
 		vendingMachine.insert("quarter");
 		vendingMachine.selectItem(Item.CANDY);
 
-		assertTrue(vendingMachine.coinIsReturned("dime"));
-		assertTrue(vendingMachine.coinIsReturned("quarter"));
+		assertTrue(vendingMachine.isReturned("dime"));
+		assertTrue(vendingMachine.isReturned("quarter"));
 	}
 
 	@Test
@@ -105,14 +105,14 @@ class TestVendingMachine {
 		vendingMachine.insert("quarter");
 		vendingMachine.selectItem(Item.CANDY);
 		assertTrue(vendingMachine.dispenserContains(Item.CANDY));
-		assertTrue(vendingMachine.coinIsReturned("quarter"));
+		assertTrue(vendingMachine.isReturned("quarter"));
 	}
 
 	@Test
 	void shouldReturnInsertedCoins() {
 		vendingMachine.insert("quarter");
-		vendingMachine.returnInsertedCoins();
-		assertTrue(vendingMachine.coinIsReturned("quarter"));
+		vendingMachine.returnCoins();
+		assertTrue(vendingMachine.isReturned("quarter"));
 		assertEquals(0, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
 	}

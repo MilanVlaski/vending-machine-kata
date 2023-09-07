@@ -18,7 +18,7 @@ public class Display {
 	
 	public void update(VendingMachine vendingMachine) {
 		
-		switch (vendingMachine.purchaseState) {
+		switch (vendingMachine.purchaseState()) {
 		case SUCCESS:
 			message = "THANK YOU";
 			break;
@@ -33,7 +33,7 @@ public class Display {
 		amount = formatDollar(vendingMachine.insertedAmount());	
 		
 		if(vendingMachine.itemIsSelected()) {
-			itemPrice = "PRICE = " + formatDollar(vendingMachine.selectedItem().price);
+			itemPrice = "PRICE = " + formatDollar(vendingMachine.selectedItemPrice());
 		} else {
 			itemPrice = "";	
 		}

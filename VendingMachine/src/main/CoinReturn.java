@@ -11,6 +11,7 @@ public class CoinReturn {
 
 	private final CoinStock coinStock;
 	private final List<String> coins = new ArrayList<>();
+	private double insertedAmount;
 
 	public CoinReturn(CoinStock coinStock) {
 		this.coinStock = coinStock;
@@ -25,6 +26,7 @@ public class CoinReturn {
 			}
 			amount = subtract(amount, coin.value);
 		}
+		insertedAmount = 0;
 	}
 	
 	public boolean contains(String coin) {
@@ -44,5 +46,17 @@ public class CoinReturn {
 		return BigDecimal.valueOf(payment)
 				.subtract(BigDecimal.valueOf(price))
 				.doubleValue();
+	}
+
+	public double insertedAmount() {
+		return insertedAmount;
+	}
+	
+	public void addToAmount(double value) {
+		insertedAmount += value;
+	}
+
+	public void returnInsertedCoins() {
+		returnCoins(insertedAmount);
 	}
 }
