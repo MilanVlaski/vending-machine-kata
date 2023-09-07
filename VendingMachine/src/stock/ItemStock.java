@@ -16,8 +16,9 @@ public class ItemStock {
 		return helper.has(item);
 	}
 	
-	public void add(Item item, int amount) {
+	public ItemStock add(Item item, int amount) {
 		helper.add(item, amount);
+		return this;
 	}
 	
 	public void remove(Item item, int amount) {

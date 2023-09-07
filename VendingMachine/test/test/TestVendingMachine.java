@@ -18,30 +18,29 @@ class TestVendingMachine {
 	@BeforeEach
 	void setup() {
 		vendingMachine = new VendingMachine();
-		vendingMachine.stock(Item.COLA, 1);
-		vendingMachine.stock(Item.CANDY, 1);
-		vendingMachine.stock(Item.CHIPS, 1);
+		vendingMachine.itemStock()
+				.add(Item.COLA, 1)
+				.add(Item.CANDY, 1)
+				.add(Item.CHIPS, 1);
 	}
-	
+
 	@Test
-	void shouldSayInsertCoinIfEmpty() {
-		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
-	}
-	
+	void shouldSayInsertCoinIfEmpty() { assertTrue(vendingMachine.displayMessage().contains("INSERT COIN")); }
+
 	@Test
 	void shouldAcceptQuarter() {
 		vendingMachine.insert("quarter");
 		assertEquals(0.25, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.displayMessage().contains("0.25"));
 	}
-	
+
 	@Test
 	void shouldAcceptDime() {
 		vendingMachine.insert("dime");
 		assertEquals(0.1, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.displayMessage().contains("0.10"));
 	}
-	
+
 	@Test
 	void shouldRejectPenny() {
 		vendingMachine.insert("penny");
@@ -49,7 +48,7 @@ class TestVendingMachine {
 		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
 		assertTrue(vendingMachine.coinReturnContains("penny"));
 	}
-	
+
 	@Test
 	void shouldDispenseColaIfEnoughMoneyInserted() {
 		vendingMachine.selectItem(Item.CHIPS);
@@ -58,7 +57,7 @@ class TestVendingMachine {
 		assertEquals(0, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.dispenserContains(Item.CHIPS));
 	}
-	
+
 	@Test
 	void shouldSayThankYouThenInsertCoinIfDispensed() {
 		vendingMachine.selectItem(Item.CHIPS);
@@ -68,14 +67,14 @@ class TestVendingMachine {
 		assertTrue(vendingMachine.displayMessage().contains("THANK YOU"));
 		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
 	}
-	
+
 	@Test
 	void shouldDisplayPriceOfItemIfNotEnoughMoney() {
 		vendingMachine.selectItem(Item.COLA);
 		vendingMachine.insert("quarter");
 		assertTrue(vendingMachine.displayMessage().contains("PRICE = 1.00"));
 	}
-	
+
 	@Test
 	void shouldDispenseIfYouSelectItemAfterInsertingEnoughCoins() {
 		vendingMachine.insert("quarter");
@@ -84,20 +83,20 @@ class TestVendingMachine {
 		assertEquals(0, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.dispenserContains(Item.CHIPS));
 	}
-	
+
 	@Test // i define change as any money that is above what you gave me
 	void shouldReturnChangeAfterPurchase() {
-		vendingMachine.stock(ValidCoin.DIME, 1);
+		vendingMachine.coinStock().add(ValidCoin.DIME, 1);;
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.selectItem(Item.CANDY);
-		
-		assertTrue(vendingMachine.coinReturnContains("dime")); 
+
+		assertTrue(vendingMachine.coinReturnContains("dime"));
 		assertTrue(vendingMachine.coinReturnContains("quarter"));
 	}
-	
+
 	@Test
 	void shouldDispense_ButNotMakeChangeIfImpossibleTo() {
 		vendingMachine.insert("quarter");
@@ -108,7 +107,7 @@ class TestVendingMachine {
 		assertTrue(vendingMachine.dispenserContains(Item.CANDY));
 		assertTrue(vendingMachine.coinReturnContains("quarter"));
 	}
-	
+
 	@Test
 	void shouldReturnInsertedCoins() {
 		vendingMachine.insert("quarter");
@@ -117,10 +116,10 @@ class TestVendingMachine {
 		assertEquals(0, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
 	}
-	
+
 	@Test
 	void shouldDisplayOutOfStock() {
-		vendingMachine.stock(Item.CANDY, -1);;
+		vendingMachine.itemStock().remove(Item.CANDY, 1);
 		vendingMachine.selectItem(Item.CANDY);
 		assertTrue(vendingMachine.displayMessage().contains("SOLD OUT"));
 		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));

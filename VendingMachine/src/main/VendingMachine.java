@@ -112,7 +112,7 @@ public class VendingMachine {
 
 	public void returnInsertedCoins() {
 		returnCoins(insertedAmount);
-		resetInsertedAmount();
+		resetInsertedAmount(); 
 	}
 	
 
@@ -126,18 +126,18 @@ public class VendingMachine {
 		while (amount > 0) {
 			ValidCoin coin = ValidCoin.largestCoinWorthLessThan(amount);
 			if (coinStock.has(coin)) {
-				coinStock.remove(coin, 1);
 				coinReturn.add(coin.toString());
+				coinStock.remove(coin, 1);
 			}
 			amount = subtract(amount, coin.value);
 		}
 	}
 
-	public void stock(ValidCoin coin, int amount) {
-		coinStock.add(coin, amount);
+	public CoinStock coinStock() {
+		return coinStock;
 	}
 
-	public void stock(Item item, int amount) {
-		itemStock.add(item, amount);
+	public ItemStock itemStock() {
+		return itemStock;
 	}
 }
