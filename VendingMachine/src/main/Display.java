@@ -7,11 +7,10 @@ public class Display {
 	private String amount;
 	private String itemPrice;
 	
-	public enum DisplayState {
-		READY,
-		ITEM_SELECTED,
-		PURCHASE_SUCCESSFUL,
-		SOLD_OUT;
+	public enum PurchaseState {
+		YES,
+		SOLD_OUT,
+		HAVENT_BEGUN_PURCHASING;
 	}
 	
 	public Display (VendingMachine vendingMachine) {
@@ -34,21 +33,22 @@ public class Display {
 		if(vendingMachine.insertedAmount() > 0)
 			amount = formatDollar(vendingMachine.insertedAmount());
 		
+		switch (vendingMachine.purchaseState) {
+		case YES:
+			message = "THANK YOU";
+			break;
+		case SOLD_OUT:
+			message = "SOLD OUT";
+			break;
+		case HAVENT_BEGUN_PURCHASING:
+			message = "INSERT COIN";
+			break;
+		}
+		
 		if(vendingMachine.itemIsSelected()) {
-			
-			if(vendingMachine.isSelectedItemSoldOut()) {
-				message = "SOLD OUT";
-				return;
-			}
-			
 			itemPrice = "PRICE = " + formatDollar(vendingMachine.selectedItem().price);
 		} else {
-			itemPrice = "";		
-			if(!vendingMachine.dispenserEmpty()) {
-				message = "THANK YOU";
-			} else {
-				message = "INSERT COIN";
-			}
+			itemPrice = "";	
 		}
 		
 	}

@@ -1,13 +1,15 @@
-instead of testing that display is showing "thank you" the display can be in 
-a thankful state or something
-
-Coin stock.
-INSERT COIN is the ready state
-THANK YOU - is a purchase successful state
-SOLD OUT - is an error state
-PRICE = 10 - you show if an item is selected (only in ready state)
-
 Urgently refactor the display method.
 tryToPurchase is called after selecting an item, and in the method, we check
 if item is selected, which is dumb.
 similarly, when called in the insert method.
+
+setting the enum after stuff happens is a good idea. But my code has a lot of
+temporal coupling (check out victors video on unit testing). message() method
+needs refactoring. and a lot of the logic in VendingMachine (maybe try 
+inlining every method).
+
+Maybe write a bunch of more complex tests for the display, that checks whether
+the display is showing exactly what it should after every user input.
+
+i should mock that coinreturn.add() was called, because i dont have access
+to the coinreturn, i cant actually programatically test that.

@@ -20,7 +20,13 @@ public enum ValidCoin {
 		}
 		return null;
 	}
-
+	/**
+	 * If you put in gibberish, or a coin that is not allowed,
+	 * this function returns 0. Otherwise, returns the actual value as specified
+	 * in the ValidCoin enum.
+	 * @param string representation of coin
+	 * @return
+	 */
 	public static double valueOfCoin(String typeOfCoin) {
 		
 		double result = 0;

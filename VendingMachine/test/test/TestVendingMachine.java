@@ -66,7 +66,7 @@ class TestVendingMachine {
 		vendingMachine.insert("quarter");
 		assertTrue(vendingMachine.dispenserContains(Item.CHIPS));
 		assertTrue(vendingMachine.displayMessage().contains("THANK YOU"));
-//		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
+		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
 	}
 	
 	@Test
@@ -81,6 +81,7 @@ class TestVendingMachine {
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.selectItem(Item.CHIPS);
+		assertEquals(0, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.dispenserContains(Item.CHIPS));
 	}
 	
@@ -113,14 +114,15 @@ class TestVendingMachine {
 		vendingMachine.insert("quarter");
 		vendingMachine.returnInsertedCoins();
 		assertTrue(vendingMachine.coinReturnContains("quarter"));
+		assertEquals(0, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
 	}
 	
 	@Test
 	void shouldDisplayOutOfStock() {
-		vendingMachine.itemStock().remove(Item.CANDY, 1);;
+		vendingMachine.stock(Item.CANDY, -1);;
 		vendingMachine.selectItem(Item.CANDY);
 		assertTrue(vendingMachine.displayMessage().contains("SOLD OUT"));
-//		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
+		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
 	}
 }
