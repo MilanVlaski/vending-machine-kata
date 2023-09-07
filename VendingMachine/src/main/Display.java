@@ -2,55 +2,41 @@ package main;
 
 public class Display {
 
-	private final VendingMachine vendingMachine;
 	private String message;
 	private String amount;
 	private String itemPrice;
 	
 	public enum PurchaseState {
-		YES,
+		SUCCESS,
 		SOLD_OUT,
-		HAVENT_BEGUN_PURCHASING;
-	}
-	
-	public Display (VendingMachine vendingMachine) {
-		this.vendingMachine = vendingMachine;
-		update();
+		IDLE;
 	}
 	
 	public String message() {
-		return message + "\n" + amount + "\n" + itemPrice + "\n";
+		return String.join("\n", message, amount, itemPrice);
 	}
 	
-	public void show(String errorMsg) {
-		message = errorMsg;
-		amount = "";
-		itemPrice = "";
-	}
-	
-	public void update() {
-		
-		if(vendingMachine.insertedAmount() > 0)
-			amount = formatDollar(vendingMachine.insertedAmount());
+	public void update(VendingMachine vendingMachine) {
 		
 		switch (vendingMachine.purchaseState) {
-		case YES:
+		case SUCCESS:
 			message = "THANK YOU";
 			break;
 		case SOLD_OUT:
 			message = "SOLD OUT";
 			break;
-		case HAVENT_BEGUN_PURCHASING:
+		case IDLE:
 			message = "INSERT COIN";
 			break;
 		}
+		
+		amount = formatDollar(vendingMachine.insertedAmount());	
 		
 		if(vendingMachine.itemIsSelected()) {
 			itemPrice = "PRICE = " + formatDollar(vendingMachine.selectedItem().price);
 		} else {
 			itemPrice = "";	
 		}
-		
 	}
 	
 	private String formatDollar(double money) {

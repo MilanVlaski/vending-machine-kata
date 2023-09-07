@@ -3,11 +3,6 @@ tryToPurchase is called after selecting an item, and in the method, we check
 if item is selected, which is dumb.
 similarly, when called in the insert method.
 
-setting the enum after stuff happens is a good idea. But my code has a lot of
-temporal coupling (check out victors video on unit testing). message() method
-needs refactoring. and a lot of the logic in VendingMachine (maybe try 
-inlining every method).
-
 Maybe write a bunch of more complex tests for the display, that checks whether
 the display is showing exactly what it should after every user input.
 

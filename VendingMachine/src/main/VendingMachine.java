@@ -21,17 +21,17 @@ public class VendingMachine {
 
 	private double insertedAmount;
 	private Item selectedItem;
-	public PurchaseState purchaseState = PurchaseState.HAVENT_BEGUN_PURCHASING;
+	public PurchaseState purchaseState = PurchaseState.IDLE;
 
 	public VendingMachine() {
-		display = new Display(this);
+		display = new Display();
 		coinStock = new CoinStock();
 		itemStock = new ItemStock();
 	}
 
 	public String displayMessage() {
-		display.update();
-		purchaseState = PurchaseState.HAVENT_BEGUN_PURCHASING;
+		display.update(this);
+		purchaseState = PurchaseState.IDLE;
 		return display.message();
 	}
 
@@ -73,7 +73,7 @@ public class VendingMachine {
 	}
 	
 	private void makePurchase(double insertedAmount, Item selectedItem) {
-		purchaseState = PurchaseState.YES;
+		purchaseState = PurchaseState.SUCCESS;
 		dispenseItem(selectedItem);
 		makeChange(insertedAmount, selectedItem.price);
 		deselectItem();
