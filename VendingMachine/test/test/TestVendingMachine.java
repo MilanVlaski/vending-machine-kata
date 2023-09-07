@@ -111,7 +111,7 @@ class TestVendingMachine {
 	@Test
 	void shouldReturnInsertedCoins() {
 		vendingMachine.insert("quarter");
-		vendingMachine.returnCoins();
+		vendingMachine.giveBackCoins();
 		assertTrue(vendingMachine.isReturned("quarter"));
 		assertEquals(0, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));

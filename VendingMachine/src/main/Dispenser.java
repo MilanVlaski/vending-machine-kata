@@ -14,7 +14,7 @@ public class Dispenser {
 	private final CoinReturn coinReturn;
 	
 	private Item selected;
-	private PurchaseState purchaseState = PurchaseState.IDLE;
+	public PurchaseState purchaseState = PurchaseState.IDLE;
 	
 	public Dispenser(ItemStock itemStock, CoinReturn coinReturn) {
 		this.stock = itemStock;

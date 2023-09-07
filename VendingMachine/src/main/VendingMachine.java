@@ -15,10 +15,8 @@ public class VendingMachine {
 	private final CoinReturn coinReturn;
 	private final Dispenser dispenser;
 
-	public PurchaseState purchaseState = PurchaseState.IDLE;
-
 	public PurchaseState purchaseState() {
-		return purchaseState;
+		return dispenser.purchaseState;
 	}
 
 	public VendingMachine() {
@@ -31,7 +29,7 @@ public class VendingMachine {
 
 	public String displayMessage() {
 		display.update(this);
-		purchaseState = PurchaseState.IDLE;
+		dispenser.purchaseState = PurchaseState.IDLE;
 		return display.message();
 	}
 
@@ -39,9 +37,6 @@ public class VendingMachine {
 		return coinReturn.insertedAmount();
 	}
 
-	public Item selectedItem() {
-		return dispenser.selectedItem();
-	}
 	
 	public void insert(String coin) {
 		double coinValue = ValidCoin.valueOfCoin(coin);
@@ -62,24 +57,9 @@ public class VendingMachine {
 		dispenser.select(item);
 		dispenser.tryToPurchase();
 	}
-
-	private void tryToPurchase() {
-		if (!dispenser.isSelectedItemAvailable()) {
-			purchaseState = PurchaseState.SOLD_OUT;
-			dispenser.deselect();
-		} else if (dispenser.enoughMoneyForItem(insertedAmount())) {
-			purchase(insertedAmount(), dispenser.priceOfSelection());
-		}
-	}
 	
 	public double selectedItemPrice() {
 		return dispenser.priceOfSelection();
-	}
-	
-	private void purchase(double insertedAmount, double price) {
-		purchaseState = PurchaseState.SUCCESS;
-		dispenser.dispenseSelected();
-		coinReturn.makeChange(insertedAmount(), price);
 	}
 	
 	public boolean dispenserContains(Item item) {
@@ -94,7 +74,7 @@ public class VendingMachine {
 		return coinReturn.contains(coin);
 	}
 
-	public void returnCoins() {
+	public void giveBackCoins() {
 		coinReturn.returnInsertedCoins();
 	}
 	
