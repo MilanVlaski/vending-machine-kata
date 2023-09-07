@@ -30,30 +30,30 @@ public class TestStock {
 
 	@Test
 	void shouldAddOneQuarter() {
-		stock.add(ValidCoin.QUARTER, 1);
+		stock.add(1, ValidCoin.QUARTER);
 		assertTrue(stock.has(ValidCoin.QUARTER));
 	}
 
 	@Test
 	void shouldRemoveOneQuarter() {
-		stock.add(ValidCoin.QUARTER, 1);
-		stock.remove(ValidCoin.QUARTER, 1);
+		stock.add(1, ValidCoin.QUARTER);
+		stock.remove(1, ValidCoin.QUARTER);
 		assertFalse(stock.has(ValidCoin.QUARTER));
 	}
 
 	@Test
 	void shouldThrowOutOfCoin_IfNoCoins() {
 		Throwable outOfCoin = assertThrows(OutOfItem.class,
-						() -> stock.remove(ValidCoin.QUARTER, 1));
+						() -> stock.remove(1, ValidCoin.QUARTER));
 		
 		assertEquals("No quarters left in stock.", outOfCoin.getMessage());
 	}
 	
 	@Test
 	void shouldThrowInsufficientCoins_IfCantProvideSpecifiedAmount() {
-		stock.add(ValidCoin.QUARTER, 1);
+		stock.add(1, ValidCoin.QUARTER);
 		Throwable insufficientCoins = assertThrows(OutOfItem.class, 
-								() -> stock.remove(ValidCoin.QUARTER, 2));
+								() -> stock.remove(2, ValidCoin.QUARTER));
 		
 		assertEquals("No quarters left in stock.", insufficientCoins.getMessage());
 	}

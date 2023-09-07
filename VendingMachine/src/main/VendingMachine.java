@@ -1,9 +1,5 @@
 package main;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import main.Display.PurchaseState;
 import stock.CoinStock;
 import stock.Item;
@@ -15,9 +11,9 @@ public class VendingMachine {
 	private final Display display;
 	private final CoinStock coinStock;
 	private final ItemStock itemStock;
-
-	private final List<String> coinReturn = new ArrayList<>();
-	private final List<Item> dispenser = new ArrayList<>();
+	
+	private final CoinReturn coinReturn;
+	private final Dispenser dispenser;
 
 	private double insertedAmount;
 	private Item selectedItem;
@@ -27,6 +23,8 @@ public class VendingMachine {
 		display = new Display();
 		coinStock = new CoinStock();
 		itemStock = new ItemStock();
+		coinReturn = new CoinReturn(coinStock);
+		dispenser = new Dispenser(itemStock);
 	}
 
 	public String displayMessage() {
@@ -48,34 +46,34 @@ public class VendingMachine {
 
 		if (coinValue != 0) {
 			ValidCoin validCoin = ValidCoin.valueOf(coin.toUpperCase());
-			coinStock.add(validCoin, 1);
+			coinStock.add(1, validCoin);
 		} else {			
-			coinReturn.add(coin);
+			coinReturn.returnCoin(coin);
 		}
 		insertedAmount += coinValue;
 		
 		if (itemIsSelected())
-			tryPurchase();
+			tryToPurchase();
 	}
 
 	public void selectItem(Item item) {
 		selectedItem = item;
-		tryPurchase();
+		tryToPurchase();
 	}
 
-	private void tryPurchase() {
+	private void tryToPurchase() {
 		if (!itemStock.has(selectedItem)) {
 			purchaseState = PurchaseState.SOLD_OUT;
 			deselectItem();
 		} else if (insertedAmount >= selectedItem.price) {
-			makePurchase(insertedAmount, selectedItem);
+			purchase(insertedAmount, selectedItem);
 		}
 	}
 	
-	private void makePurchase(double insertedAmount, Item selectedItem) {
+	private void purchase(double insertedAmount, Item selectedItem) {
 		purchaseState = PurchaseState.SUCCESS;
 		dispenseItem(selectedItem);
-		makeChange(insertedAmount, selectedItem.price);
+		coinReturn.makeChange(insertedAmount, selectedItem.price);
 		deselectItem();
 		resetInsertedAmount();
 	}
@@ -96,43 +94,19 @@ public class VendingMachine {
 		return selectedItem != null;
 	}
 
-	public boolean coinReturnContains(String coin) {
+	public boolean coinIsReturned(String coin) {
 		return coinReturn.contains(coin);
 	}
 
-	private void makeChange(double insertedAmount, double itemPrice) {
-		double change = subtract(insertedAmount, itemPrice);
-		returnCoins(change);
-	}
-
 	private void dispenseItem(Item selectedItem) {
-		itemStock.remove(selectedItem, 1);
-		dispenser.add(selectedItem);
+		dispenser.dispense(selectedItem);
 	}
 
 	public void returnInsertedCoins() {
-		returnCoins(insertedAmount);
+		coinReturn.returnCoins(insertedAmount);
 		resetInsertedAmount(); 
 	}
 	
-
-	private static double subtract(double payment, double price) {
-		return BigDecimal.valueOf(payment)
-				.subtract(BigDecimal.valueOf(price))
-				.doubleValue();
-	}
-
-	private void returnCoins(double amount) {
-		while (amount > 0) {
-			ValidCoin coin = ValidCoin.largestCoinWorthLessThan(amount);
-			if (coinStock.has(coin)) {
-				coinReturn.add(coin.toString());
-				coinStock.remove(coin, 1);
-			}
-			amount = subtract(amount, coin.value);
-		}
-	}
-
 	public CoinStock coinStock() {
 		return coinStock;
 	}

@@ -12,11 +12,11 @@ public class CoinStock {
 		return helper.has(coin);
 	}
 	
-	public void add(ValidCoin coin, int amount) {
+	public void add(int amount, ValidCoin coin) {
 		helper.add(coin, amount);
 	}
 	
-	public void remove(ValidCoin coin, int amount) {
+	public void remove(int amount, ValidCoin coin) {
 		helper.remove(coin, amount);
 	}
 }

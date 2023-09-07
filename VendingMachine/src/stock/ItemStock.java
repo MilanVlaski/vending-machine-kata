@@ -16,12 +16,12 @@ public class ItemStock {
 		return helper.has(item);
 	}
 	
-	public ItemStock add(Item item, int amount) {
+	public ItemStock add(int amount, Item item) {
 		helper.add(item, amount);
 		return this;
 	}
 	
-	public void remove(Item item, int amount) {
+	public void remove(int amount, Item item) {
 		helper.remove(item, amount);
 	}
 }

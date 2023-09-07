@@ -19,9 +19,9 @@ class TestVendingMachine {
 	void setup() {
 		vendingMachine = new VendingMachine();
 		vendingMachine.itemStock()
-				.add(Item.COLA, 1)
-				.add(Item.CANDY, 1)
-				.add(Item.CHIPS, 1);
+				.add(1, Item.COLA)
+				.add(1, Item.CANDY)
+				.add(1, Item.CHIPS);
 	}
 
 	@Test
@@ -46,7 +46,7 @@ class TestVendingMachine {
 		vendingMachine.insert("penny");
 		assertEquals(0, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
-		assertTrue(vendingMachine.coinReturnContains("penny"));
+		assertTrue(vendingMachine.coinIsReturned("penny"));
 	}
 
 	@Test
@@ -86,15 +86,15 @@ class TestVendingMachine {
 
 	@Test // i define change as any money that is above what you gave me
 	void shouldReturnChangeAfterPurchase() {
-		vendingMachine.coinStock().add(ValidCoin.DIME, 1);;
+		vendingMachine.coinStock().add(1, ValidCoin.DIME);;
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.selectItem(Item.CANDY);
 
-		assertTrue(vendingMachine.coinReturnContains("dime"));
-		assertTrue(vendingMachine.coinReturnContains("quarter"));
+		assertTrue(vendingMachine.coinIsReturned("dime"));
+		assertTrue(vendingMachine.coinIsReturned("quarter"));
 	}
 
 	@Test
@@ -105,21 +105,21 @@ class TestVendingMachine {
 		vendingMachine.insert("quarter");
 		vendingMachine.selectItem(Item.CANDY);
 		assertTrue(vendingMachine.dispenserContains(Item.CANDY));
-		assertTrue(vendingMachine.coinReturnContains("quarter"));
+		assertTrue(vendingMachine.coinIsReturned("quarter"));
 	}
 
 	@Test
 	void shouldReturnInsertedCoins() {
 		vendingMachine.insert("quarter");
 		vendingMachine.returnInsertedCoins();
-		assertTrue(vendingMachine.coinReturnContains("quarter"));
+		assertTrue(vendingMachine.coinIsReturned("quarter"));
 		assertEquals(0, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
 	}
 
 	@Test
 	void shouldDisplayOutOfStock() {
-		vendingMachine.itemStock().remove(Item.CANDY, 1);
+		vendingMachine.itemStock().remove(1, Item.CANDY);
 		vendingMachine.selectItem(Item.CANDY);
 		assertTrue(vendingMachine.displayMessage().contains("SOLD OUT"));
 		assertTrue(vendingMachine.displayMessage().contains("INSERT COIN"));
