@@ -7,13 +7,13 @@ import java.util.List;
 import stock.CoinStock;
 import stock.ValidCoin;
 
-public class CoinReturn {
+public class CoinHandler {
 
 	private final CoinStock coinStock;
 	private final List<String> coins = new ArrayList<>();
 	private double insertedAmount;
 
-	public CoinReturn(CoinStock coinStock) {
+	public CoinHandler(CoinStock coinStock) {
 		this.coinStock = coinStock;
 	}
 
@@ -33,7 +33,7 @@ public class CoinReturn {
 		return coins.contains(coin);
 	}
 
-	public void makeChange(double insertedAmount, double itemPrice) {
+	public void makeChange(double itemPrice) {
 		double change = subtract(insertedAmount, itemPrice);
 		returnCoins(change);
 	}

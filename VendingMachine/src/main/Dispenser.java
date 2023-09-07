@@ -11,14 +11,14 @@ public class Dispenser {
 
 	private final List<Item> dispensedItems = new ArrayList<>();
 	private final ItemStock stock;
-	private final CoinReturn coinReturn;
+	private final CoinHandler coinHandler;
 	
 	private Item selected;
 	private PurchaseState purchaseState = PurchaseState.IDLE;
 	
-	public Dispenser(ItemStock itemStock, CoinReturn coinReturn) {
+	public Dispenser(ItemStock itemStock, CoinHandler coinHandler) {
 		this.stock = itemStock;
-		this.coinReturn = coinReturn;
+		this.coinHandler = coinHandler;
 	}
 
 	public void dispenseSelected() {
@@ -59,19 +59,18 @@ public class Dispenser {
 	}
 	
 	public void tryToPurchase() {
-		double insertedAmount = coinReturn.insertedAmount();
 		if (!isSelectedItemAvailable()) {
 			purchaseState = PurchaseState.SOLD_OUT;
 			deselect();
-		} else if (enoughMoneyForItem(insertedAmount)) {
-			purchase(insertedAmount, priceOfSelection());
+		} else if (enoughMoneyForItem(coinHandler.insertedAmount())) {
+			purchase(priceOfSelection());
 		}
 	}
 	
-	private void purchase(double insertedAmount, double price) {
+	private void purchase(double price) {
 		purchaseState = PurchaseState.SUCCESS;
+		coinHandler.makeChange(price);
 		dispenseSelected();
-		coinReturn.makeChange(insertedAmount, price);
 	}
 
 	public PurchaseState purchaseState() {

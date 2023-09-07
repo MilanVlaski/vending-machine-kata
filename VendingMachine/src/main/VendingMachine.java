@@ -4,7 +4,6 @@ import main.Display.PurchaseState;
 import stock.CoinStock;
 import stock.Item;
 import stock.ItemStock;
-import stock.ValidCoin;
 
 public class VendingMachine {
 
@@ -12,15 +11,15 @@ public class VendingMachine {
 	private final CoinStock coinStock;
 	private final ItemStock itemStock;
 
-	private final CoinReturn coinReturn;
+	private final CoinHandler coinHandler;
 	private final Dispenser dispenser;
 
 	public VendingMachine() {
 		display = new Display();
 		coinStock = new CoinStock();
 		itemStock = new ItemStock();
-		coinReturn = new CoinReturn(coinStock);
-		dispenser = new Dispenser(itemStock, coinReturn);
+		coinHandler = new CoinHandler(coinStock);
+		dispenser = new Dispenser(itemStock, coinHandler);
 	}
 
 	public String displayMessage() {
@@ -30,11 +29,11 @@ public class VendingMachine {
 	}
 
 	public double insertedAmount() {
-		return coinReturn.insertedAmount();
+		return coinHandler.insertedAmount();
 	}
 
 	public void insert(String coin) {
-		coinReturn.acceptCoin(coin);
+		coinHandler.acceptCoin(coin);
 		if (itemIsSelected())
 			dispenser.tryToPurchase();
 	}
@@ -57,11 +56,11 @@ public class VendingMachine {
 	}
 
 	public boolean isReturned(String coin) {
-		return coinReturn.contains(coin);
+		return coinHandler.contains(coin);
 	}
 
 	public void giveBackCoins() {
-		coinReturn.returnInsertedCoins();
+		coinHandler.returnInsertedCoins();
 	}
 
 	public CoinStock coinStock() {
