@@ -1,9 +1,5 @@
 package stock;
 
-import java.util.HashMap;
-
-import stock.StockHelper.OutOfItem;
-
 public class ItemStock {
 
 	private final StockHelper helper;

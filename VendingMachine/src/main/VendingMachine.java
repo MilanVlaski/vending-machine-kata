@@ -11,13 +11,9 @@ public class VendingMachine {
 	private final Display display;
 	private final CoinStock coinStock;
 	private final ItemStock itemStock;
-	
+
 	private final CoinReturn coinReturn;
 	private final Dispenser dispenser;
-
-	public PurchaseState purchaseState() {
-		return dispenser.purchaseState;
-	}
 
 	public VendingMachine() {
 		display = new Display();
@@ -29,7 +25,7 @@ public class VendingMachine {
 
 	public String displayMessage() {
 		display.update(this);
-		dispenser.purchaseState = PurchaseState.IDLE;
+		dispenser.resetPurchaseState();
 		return display.message();
 	}
 
@@ -37,18 +33,8 @@ public class VendingMachine {
 		return coinReturn.insertedAmount();
 	}
 
-	
 	public void insert(String coin) {
-		double coinValue = ValidCoin.valueOfCoin(coin);
-
-		if (coinValue != 0) {
-			ValidCoin validCoin = ValidCoin.valueOf(coin.toUpperCase());
-			coinStock.add(1, validCoin);
-		} else {			
-			coinReturn.returnCoin(coin);
-		}
-		coinReturn.addToAmount(coinValue);
-		
+		coinReturn.acceptCoin(coin);
 		if (itemIsSelected())
 			dispenser.tryToPurchase();
 	}
@@ -57,15 +43,15 @@ public class VendingMachine {
 		dispenser.select(item);
 		dispenser.tryToPurchase();
 	}
-	
+
 	public double selectedItemPrice() {
 		return dispenser.priceOfSelection();
 	}
-	
+
 	public boolean dispenserContains(Item item) {
 		return dispenser.contains(item);
 	}
-	
+
 	public boolean itemIsSelected() {
 		return dispenser.itemIsSelected();
 	}
@@ -77,12 +63,16 @@ public class VendingMachine {
 	public void giveBackCoins() {
 		coinReturn.returnInsertedCoins();
 	}
-	
+
 	public CoinStock coinStock() {
 		return coinStock;
 	}
 
 	public ItemStock itemStock() {
 		return itemStock;
+	}
+	
+	public PurchaseState purchaseState() {
+		return dispenser.purchaseState();
 	}
 }

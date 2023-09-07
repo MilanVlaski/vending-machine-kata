@@ -14,7 +14,7 @@ public class Dispenser {
 	private final CoinReturn coinReturn;
 	
 	private Item selected;
-	public PurchaseState purchaseState = PurchaseState.IDLE;
+	private PurchaseState purchaseState = PurchaseState.IDLE;
 	
 	public Dispenser(ItemStock itemStock, CoinReturn coinReturn) {
 		this.stock = itemStock;
@@ -57,10 +57,6 @@ public class Dispenser {
 	public boolean enoughMoneyForItem(double amount) {
 		return amount >= priceOfSelection();
 	}
-
-	public Item selectedItem() {
-		return selected;
-	}
 	
 	public void tryToPurchase() {
 		double insertedAmount = coinReturn.insertedAmount();
@@ -80,5 +76,9 @@ public class Dispenser {
 
 	public PurchaseState purchaseState() {
 		return purchaseState;
+	}
+
+	public void resetPurchaseState() {
+		purchaseState = PurchaseState.IDLE;
 	}
 }

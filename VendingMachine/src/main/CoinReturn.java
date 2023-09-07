@@ -59,4 +59,16 @@ public class CoinReturn {
 	public void returnInsertedCoins() {
 		returnCoins(insertedAmount);
 	}
+
+	public void acceptCoin(String coin) {
+		double coinValue = ValidCoin.valueOfCoin(coin);
+
+		if (coinValue != 0) {
+			ValidCoin validCoin = ValidCoin.valueOf(coin.toUpperCase());
+			coinStock.add(1, validCoin);
+		} else {
+			returnCoin(coin);
+		}
+		addToAmount(coinValue);
+	}
 }

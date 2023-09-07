@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import main.VendingMachine;
 import stock.Item;
-import stock.ItemStock;
 import stock.ValidCoin;
 
 class TestVendingMachine {
