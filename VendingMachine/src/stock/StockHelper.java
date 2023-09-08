@@ -25,7 +25,7 @@ public class StockHelper {
 	public void remove(Object object, int amount) throws OutOfItem{
 		if(!has(object) || map.get(object) < amount)
 			throw new OutOfItem(object.toString());
-		
+		 
 		add(object, -amount);
 	}
 	

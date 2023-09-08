@@ -8,25 +8,24 @@ import stock.ItemStock;
 
 public class Dispenser {
 
-	private enum PurchaseState {
+	public enum DisplayState {
 		SUCCESS("THANK YOU"),
 		SOLD_OUT("SOLD OUT"),
 		IDLE("INSERT COIN");
-		
+
 		public String message;
 
-		PurchaseState(String message) {
+		DisplayState(String message) {
 			this.message = message;
 		}
-
 	}
-	
+
 	private final List<Item> dispensedItems = new ArrayList<>();
 	private final ItemStock stock;
 	private final MoneyHandler moneyHandler;
 
 	private Item selectedItem;
-	private PurchaseState purchaseState = PurchaseState.IDLE;
+	private DisplayState displayState = DisplayState.IDLE;
 
 	public Dispenser(ItemStock itemStock, MoneyHandler moneyHandler) {
 		this.stock = itemStock;
@@ -44,11 +43,11 @@ public class Dispenser {
 				moneyHandler.makeChange(item.price);
 				selectedItem = null;
 				dispense(item);
-				purchaseState = PurchaseState.SUCCESS;
+				displayState = DisplayState.SUCCESS;
 			}
 		} else {
 			selectedItem = null;
-			purchaseState = PurchaseState.SOLD_OUT;
+			displayState = DisplayState.SOLD_OUT;
 		}
 	}
 
@@ -62,7 +61,10 @@ public class Dispenser {
 	}
 
 	public double priceOfSelection() {
-		return selectedItem.price;
+		if (itemIsSelected())
+			return selectedItem.price;
+		else
+			return 0;
 	}
 
 	public boolean itemIsSelected() {
@@ -75,9 +77,9 @@ public class Dispenser {
 	}
 
 	public String message() {
-		String message = purchaseState.message;
-		purchaseState = PurchaseState.IDLE;
-		return message;
+		DisplayState state = this.displayState;
+		this.displayState = DisplayState.IDLE;
+		return Display.message(moneyHandler.insertedAmount(), state, priceOfSelection());
 	}
 
 }

@@ -6,7 +6,6 @@ import stock.ItemStock;
 
 public class VendingMachine {
 
-	private final Display display;
 	private final CoinStock coinStock;
 	private final ItemStock itemStock;
 
@@ -14,7 +13,6 @@ public class VendingMachine {
 	private final Dispenser dispenser;
 
 	public VendingMachine() {
-		display = new Display();
 		coinStock = new CoinStock();
 		itemStock = new ItemStock();
 		moneyHandler = new MoneyHandler(coinStock);
@@ -22,8 +20,7 @@ public class VendingMachine {
 	}
 
 	public String updatedDisplay() {
-		display.update(insertedAmount(), dispenser);
-		return display.message();
+		return dispenser.message();
 	}
 
 	public void selectItem(Item item) {

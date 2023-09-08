@@ -1,28 +1,21 @@
 package main;
 
+import main.Dispenser.DisplayState;
+
 public class Display {
 
-	private String message;
-	private String amount;
-	private String itemPrice;
-	
-	public String message() {
-		return String.join("\n", message, amount, itemPrice);
-	}
-	
-	public void update(double insertedAmount, Dispenser dispenser) {
-		message = dispenser.message();
+	public static String message(double insertedAmount, DisplayState state,
+								double priceOfSelected) {
+		String amount = formatDollar(insertedAmount);	
 		
-		amount = formatDollar(insertedAmount);	
-		
-		if(dispenser.itemIsSelected()) {
-			itemPrice = "PRICE = " + formatDollar(dispenser.priceOfSelection());
-		} else {
-			itemPrice = "";	
-		}
+		String itemPrice = "";
+		if(priceOfSelected != 0)
+			itemPrice = "PRICE = " + formatDollar(priceOfSelected);
+
+		return String.join("\n", state.message, amount, itemPrice);
 	}
-	
-	private String formatDollar(double money) {
+
+	private static String formatDollar(double money) {
 		return String.format("%.2f $", money);
 	}
 }
