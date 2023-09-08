@@ -29,6 +29,11 @@ public class MoneyHandler {
 		insertedAmount += coinValue;
 	}
 
+	public void makeChange(double itemPrice) {
+		double change = subtract(insertedAmount, itemPrice);
+		returnCoins(change);
+	}
+
 	private void returnCoins(double amount) {
 		while (amount > 0) {
 			ValidCoin coin = ValidCoin.largestCoinWorthLessThan(amount);
@@ -39,11 +44,6 @@ public class MoneyHandler {
 			amount = subtract(amount, coin.value);
 		}
 		insertedAmount = amount;
-	}
-
-	public void makeChange(double itemPrice) {
-		double change = subtract(insertedAmount, itemPrice);
-		returnCoins(change);
 	}
 
 	public boolean hasReturned(String coin) {
@@ -61,7 +61,7 @@ public class MoneyHandler {
 	public void returnInsertedCoins() {
 		returnCoins(insertedAmount);
 	}
-	
+
 	private static double subtract(double payment, double price) {
 		return BigDecimal.valueOf(payment)
 				.subtract(BigDecimal.valueOf(price))

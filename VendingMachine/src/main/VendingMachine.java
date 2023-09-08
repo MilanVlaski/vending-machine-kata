@@ -23,8 +23,11 @@ public class VendingMachine {
 	}
 
 	public String displayMessage() {
+		//updates the display
 		display.update(this);
+		//resets state of dispenser, for the future
 		dispenser.resetPurchaseState();
+		//returns the updated display message
 		return display.message();
 	}
 

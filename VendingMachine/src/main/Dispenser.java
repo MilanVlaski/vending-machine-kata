@@ -14,6 +14,7 @@ public class Dispenser {
 	private final MoneyHandler moneyHandler;
 
 	private Item selectedItem;
+	// this should actually be a return value of tryToPurchase()
 	private PurchaseState purchaseState = PurchaseState.IDLE;
 
 	public Dispenser(ItemStock itemStock, MoneyHandler moneyHandler) {
@@ -22,20 +23,22 @@ public class Dispenser {
 	}
 
 	public void tryToPurchase() {
-		if (!stock.has(selectedItem)) {
+		if (stock.has(selectedItem)) {
+			if (moneyHandler.insertedAmount() >= priceOfSelection()) {
+				purchaseState = PurchaseState.SUCCESS;
+				moneyHandler.makeChange(priceOfSelection());
+				dispense(selectedItem);
+				selectedItem = null;
+			}
+		} else {
 			purchaseState = PurchaseState.SOLD_OUT;
 			selectedItem = null;
-		} else if (moneyHandler.insertedAmount() >= priceOfSelection()) {
-			purchaseState = PurchaseState.SUCCESS;
-			moneyHandler.makeChange(priceOfSelection());
-			dispense(selectedItem);
 		}
 	}
 
 	private void dispense(Item item) {
 		stock.remove(1, item);
 		dispensedItems.add(item);
-		selectedItem = null;
 	}
 
 	public boolean contains(Item item) {
