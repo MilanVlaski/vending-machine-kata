@@ -1,6 +1,5 @@
 package main;
 
-import main.Display.PurchaseState;
 import stock.CoinStock;
 import stock.Item;
 import stock.ItemStock;
@@ -22,44 +21,31 @@ public class VendingMachine {
 		dispenser = new Dispenser(itemStock, moneyHandler);
 	}
 
-	public String displayMessage() {
-		//updates the display
-		display.update(this);
-		//resets state of dispenser, for the future
-		dispenser.resetPurchaseState();
-		//returns the updated display message
+	public String updatedDisplay() {
+		display.update(insertedAmount(), dispenser);
 		return display.message();
 	}
 
 	public void selectItem(Item item) {
-		dispenser.select(item);
-		dispenser.tryToPurchase();
+		dispenser.selectAndPurchase(item);
 	}
 
 	public void insert(String coin) {
 		moneyHandler.accept(coin);
-		if (itemIsSelected())
-			dispenser.tryToPurchase();
+		dispenser.tryToPurchaseIfSelected();
 	}
 
 	public void giveBackCoins() {
 		moneyHandler.returnInsertedCoins();
 	}
 
+	// this can maybe get inlined, and tests can only use display
 	public double insertedAmount() {
 		return moneyHandler.insertedAmount();
 	}
 
-	public double selectedItemPrice() {
-		return dispenser.priceOfSelection();
-	}
-
 	public boolean dispenserContains(Item item) {
 		return dispenser.contains(item);
-	}
-
-	public boolean itemIsSelected() {
-		return dispenser.itemIsSelected();
 	}
 
 	public boolean isReturned(String coin) {
@@ -72,9 +58,5 @@ public class VendingMachine {
 
 	public ItemStock itemStock() {
 		return itemStock;
-	}
-
-	public PurchaseState purchaseState() {
-		return dispenser.purchaseState();
 	}
 }

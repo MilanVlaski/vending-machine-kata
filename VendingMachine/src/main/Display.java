@@ -6,34 +6,17 @@ public class Display {
 	private String amount;
 	private String itemPrice;
 	
-	public enum PurchaseState {
-		SUCCESS,
-		SOLD_OUT,
-		IDLE;
-	}
-	
 	public String message() {
 		return String.join("\n", message, amount, itemPrice);
 	}
 	
-	public void update(VendingMachine vendingMachine) {
+	public void update(double insertedAmount, Dispenser dispenser) {
+		message = dispenser.message();
 		
-		switch (vendingMachine.purchaseState()) {
-		case SUCCESS:
-			message = "THANK YOU";
-			break;
-		case SOLD_OUT:
-			message = "SOLD OUT";
-			break;
-		case IDLE:
-			message = "INSERT COIN";
-			break;
-		}
+		amount = formatDollar(insertedAmount);	
 		
-		amount = formatDollar(vendingMachine.insertedAmount());	
-		
-		if(vendingMachine.itemIsSelected()) {
-			itemPrice = "PRICE = " + formatDollar(vendingMachine.selectedItemPrice());
+		if(dispenser.itemIsSelected()) {
+			itemPrice = "PRICE = " + formatDollar(dispenser.priceOfSelection());
 		} else {
 			itemPrice = "";	
 		}

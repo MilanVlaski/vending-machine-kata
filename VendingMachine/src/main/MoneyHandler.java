@@ -34,6 +34,10 @@ public class MoneyHandler {
 		returnCoins(change);
 	}
 
+	public void returnInsertedCoins() {
+		returnCoins(insertedAmount);
+	}
+
 	private void returnCoins(double amount) {
 		while (amount > 0) {
 			ValidCoin coin = ValidCoin.largestCoinWorthLessThan(amount);
@@ -56,10 +60,6 @@ public class MoneyHandler {
 
 	public double insertedAmount() {
 		return insertedAmount;
-	}
-
-	public void returnInsertedCoins() {
-		returnCoins(insertedAmount);
 	}
 
 	private static double subtract(double payment, double price) {

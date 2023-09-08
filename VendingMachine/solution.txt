@@ -8,3 +8,4 @@ the display is showing exactly what it should after every user input.
 
 i should mock that coinreturn.add() was called, because i dont have access
 to the coinreturn, i cant actually programatically test that.
+
