@@ -37,6 +37,11 @@ public class Dispenser {
 		tryToPurchase(item);
 	}
 
+	public void tryToPurchaseIfSelected() {
+		if (itemIsSelected())
+			tryToPurchase(selectedItem);
+	}
+
 	private void tryToPurchase(Item item) {
 		if (stock.has(item)) {
 			if (moneyHandler.insertedAmount() >= item.price) {
@@ -51,35 +56,30 @@ public class Dispenser {
 		}
 	}
 
-	private void dispense(Item item) {
-		stock.remove(1, item);
-		dispensedItems.add(item);
+	public String message() {
+		DisplayState state = this.displayState;
+		this.displayState = DisplayState.IDLE;
+		return Display.message(moneyHandler.insertedAmount(), state, priceOfSelection());
 	}
 
 	public boolean contains(Item item) {
 		return dispensedItems.contains(item);
 	}
 
-	public double priceOfSelection() {
+	private void dispense(Item item) {
+		stock.remove(1, item);
+		dispensedItems.add(item);
+	}
+
+	private double priceOfSelection() {
 		if (itemIsSelected())
 			return selectedItem.price;
 		else
 			return 0;
 	}
 
-	public boolean itemIsSelected() {
+	private boolean itemIsSelected() {
 		return selectedItem != null;
-	}
-
-	public void tryToPurchaseIfSelected() {
-		if (itemIsSelected())
-			tryToPurchase(selectedItem);
-	}
-
-	public String message() {
-		DisplayState state = this.displayState;
-		this.displayState = DisplayState.IDLE;
-		return Display.message(moneyHandler.insertedAmount(), state, priceOfSelection());
 	}
 
 }

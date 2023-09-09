@@ -5,12 +5,15 @@ import main.Dispenser.DisplayState;
 public class Display {
 
 	public static String message(double insertedAmount, DisplayState state,
-								double priceOfSelected) {
-		String amount = formatDollar(insertedAmount);	
+								double selectedItemPrice) {
+		
+		String amount = "";
+		if(insertedAmount != 0)
+			amount = formatDollar(insertedAmount);	
 		
 		String itemPrice = "";
-		if(priceOfSelected != 0)
-			itemPrice = "PRICE = " + formatDollar(priceOfSelected);
+		if(selectedItemPrice != 0)
+			itemPrice = "PRICE = " + formatDollar(selectedItemPrice);
 
 		return String.join("\n", state.message, amount, itemPrice);
 	}

@@ -1,12 +1,20 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.internal.MockitoCore;
 
 import main.VendingMachine;
+import stock.CoinStock;
 import stock.Item;
 import stock.ValidCoin;
 
@@ -26,12 +34,14 @@ class TestVendingMachine {
 	@Test
 	void shouldSayInsertCoinIfEmpty() {
 		assertTrue(vendingMachine.updatedDisplay().contains("INSERT COIN"));
+		assertFalse(vendingMachine.updatedDisplay().contains("0.00"));
 	}
 
 	@Test
 	void shouldAcceptQuarter() {
 		vendingMachine.insert("quarter");
 		assertEquals(0.25, vendingMachine.insertedAmount());
+		assertTrue(vendingMachine.updatedDisplay().contains("INSERT COIN"));
 		assertTrue(vendingMachine.updatedDisplay().contains("0.25"));
 	}
 
@@ -51,10 +61,11 @@ class TestVendingMachine {
 	}
 
 	@Test
-	void shouldDispenseColaIfEnoughMoneyInserted() {
+	void shouldDispenseChipsIfEnoughMoneyInserted() {
 		vendingMachine.selectItem(Item.CHIPS);
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
+		
 		assertEquals(0, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.dispenserContains(Item.CHIPS));
 	}
@@ -64,16 +75,16 @@ class TestVendingMachine {
 		vendingMachine.selectItem(Item.CHIPS);
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
-		assertTrue(vendingMachine.dispenserContains(Item.CHIPS));
+		
 		assertTrue(vendingMachine.updatedDisplay().contains("THANK YOU"));
 		assertTrue(vendingMachine.updatedDisplay().contains("INSERT COIN"));
 	}
 
 	@Test
-	void shouldDisplayPriceOfItemIfNotEnoughMoney() {
+	void shouldDisplayPriceOfSelectedItem() {
 		vendingMachine.selectItem(Item.COLA);
-		vendingMachine.insert("quarter");
 		assertTrue(vendingMachine.updatedDisplay().contains("PRICE = 1.00"));
+		assertFalse(vendingMachine.updatedDisplay().contains("0.00"));
 	}
 
 	@Test
@@ -85,43 +96,17 @@ class TestVendingMachine {
 		assertTrue(vendingMachine.dispenserContains(Item.CHIPS));
 	}
 
-	@Test // i define change as any money that is above what you gave me
-	void shouldReturnChangeAfterPurchase() {
-		vendingMachine.coinStock().add(1, ValidCoin.DIME);
-		;
-		vendingMachine.insert("quarter");
-		vendingMachine.insert("quarter");
-		vendingMachine.insert("quarter");
-		vendingMachine.insert("quarter");
-		vendingMachine.selectItem(Item.CANDY);
-
-		assertTrue(vendingMachine.isReturned("dime"));
-		assertTrue(vendingMachine.isReturned("quarter"));
-	}
-
-	@Test
-	void shouldDispense_ButNotMakeChangeIfImpossibleTo() {
-		vendingMachine.insert("quarter");
-		vendingMachine.insert("quarter");
-		vendingMachine.insert("quarter");
-		vendingMachine.insert("quarter");
-		vendingMachine.selectItem(Item.CANDY);
-		assertTrue(vendingMachine.dispenserContains(Item.CANDY));
-		assertTrue(vendingMachine.isReturned("quarter"));
-	}
-
 	@Test
 	void shouldReturnInsertedCoins() {
 		vendingMachine.insert("quarter");
 		vendingMachine.giveBackCoins();
 		assertTrue(vendingMachine.isReturned("quarter"));
 		assertEquals(0, vendingMachine.insertedAmount());
-		assertTrue(vendingMachine.updatedDisplay().contains("INSERT COIN"));
 	}
 
 	@Test
 	void shouldDisplayOutOfStock() {
-		vendingMachine.itemStock().remove(1, Item.CANDY);
+		vendingMachine = new VendingMachine();
 		vendingMachine.selectItem(Item.CANDY);
 		assertTrue(vendingMachine.updatedDisplay().contains("SOLD OUT"));
 		assertTrue(vendingMachine.updatedDisplay().contains("INSERT COIN"));

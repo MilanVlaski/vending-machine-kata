@@ -18,6 +18,13 @@ public class VendingMachine {
 		moneyHandler = new MoneyHandler(coinStock);
 		dispenser = new Dispenser(itemStock, moneyHandler);
 	}
+	
+	public VendingMachine(CoinStock coinStock) {
+		this.coinStock = coinStock;
+		itemStock = new ItemStock();
+		moneyHandler = new MoneyHandler(coinStock);
+		dispenser = new Dispenser(itemStock, moneyHandler);
+	}
 
 	public String updatedDisplay() {
 		return dispenser.message();
