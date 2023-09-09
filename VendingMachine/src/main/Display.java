@@ -23,26 +23,29 @@ public class Display {
 	public String message(double insertedAmount, double selectedItemPrice,
 							boolean cantMakeChange) {
 		
-		if(currentState == DisplayState.IDLE && cantMakeChange) {
+		if(currentState == DisplayState.IDLE && cantMakeChange)
 			currentState = DisplayState.EXACT_CHANGE;
-		}
-		DisplayState oldState = currentState;
-		update(DisplayState.IDLE);
+			
+		String amount = writeInserted(insertedAmount);	
+		String priceOfItem = writePrice(selectedItemPrice);
 		
-		String amount = amount(insertedAmount);	
-		String priceOfItem = priceOfItem(selectedItemPrice);		
-		 
+		return makeMessageAndResetState(currentState, amount, priceOfItem);
+	}
+	
+	private String makeMessageAndResetState(DisplayState oldState, String amount,
+							String priceOfItem) {
+		currentState = DisplayState.IDLE;
 		return String.join("\n", oldState.message, amount, priceOfItem);
 	}
 
-	private String priceOfItem(double selectedItemPrice) {
+	private String writePrice(double selectedItemPrice) {
 		if(selectedItemPrice != 0)
 			return "PRICE = " + formatDollar(selectedItemPrice);
 		else
 			return "";
 	}
 
-	private String amount(double insertedAmount) {
+	private String writeInserted(double insertedAmount) {
 		if(insertedAmount != 0)
 			return formatDollar(insertedAmount);
 		else
