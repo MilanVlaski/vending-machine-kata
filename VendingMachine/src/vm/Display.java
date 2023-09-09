@@ -1,4 +1,4 @@
-package main;
+package vm;
 
 public class Display {
 	public enum DisplayState {

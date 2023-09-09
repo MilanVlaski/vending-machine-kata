@@ -1,4 +1,4 @@
-package main;
+package vm;
 
 import stock.CoinStock;
 import stock.Item;

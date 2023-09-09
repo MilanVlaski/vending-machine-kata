@@ -1,11 +1,11 @@
-package main;
+package vm;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import main.Display.DisplayState;
 import stock.Item;
 import stock.ItemStock;
+import vm.Display.DisplayState;
 
 public class Dispenser {
 
@@ -16,8 +16,7 @@ public class Dispenser {
 
 	private Item selectedItem;
 
-	public Dispenser(ItemStock itemStock, MoneyHandler moneyHandler,
-					 						Display display) {
+	public Dispenser(ItemStock itemStock, MoneyHandler moneyHandler, Display display) {
 		this.stock = itemStock;
 		this.moneyHandler = moneyHandler;
 		this.display = display;
