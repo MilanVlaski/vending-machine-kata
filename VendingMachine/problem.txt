@@ -80,10 +80,18 @@ _So that I can determine if I can buy something with the money I have before ins
 When the machine is not able to make change with the money in the machine for any of the items that it sells, it will
 display EXACT CHANGE ONLY instead of INSERT COIN.
 
+FOOD FOR THOUGH
+If you want to follow the instruction to the letter, it means checking that for all theoretical items and coins (stocked items and coins) we need to calculate if it is possible to return change for ANY inserted coins.
+
 This case is interesting, and this is how ive decided to solve it:
 We need a minimum of 4 nickels, to be able to always return the right change
 given the coins we currently accept.
 
-Smallest coin is worth 5, largest is 25. That means the most change
+Smallest coin is worth 5 (nickel), largest is 25 (quarter). That means the most change
 that can be created is worth 20. And to always be able to make that, or anything
 in between, we need 4 * 5 . Which is 4 nickels.
+This is obviously incidental. We may change the types of coins we accept.
+FORMULA: (Largest - Smallest) = Smallest * X, where X is the minimum of the smallest coin we need to make any possible change.
+X = L/S - 1. L is divisible by S, for every currency that i know of.
+
+I did this because, for some combinations of available items and coins, you can make change, and for others you cannot. Its too complex to calculate every possible situation (TODO), but we can check a simpler one...

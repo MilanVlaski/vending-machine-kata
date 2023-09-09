@@ -16,3 +16,5 @@ given the ValidCoins we currently accept.
 Smallest coin is worth 5, largest is 25. That means the most change
 that can be created is worth 20. And to always be able to make that, or anything
 in between, we need 4 *5 . Which is 4 nickels.
+
+Make the function in the enum work regardless of enum order.

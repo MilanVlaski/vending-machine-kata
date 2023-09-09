@@ -1,9 +1,9 @@
 package test;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +21,11 @@ public class TestStock {
 		stock = new CoinStock();
 	}
 
+	@Test
+	void shouldBeEmpty() {
+		assertTrue(stock.isEmpty());
+	}
+	
 	@Test
 	void shouldInitializeEmptyCoinStock() {
 		assertFalse(stock.has(ValidCoin.QUARTER));
@@ -56,5 +61,11 @@ public class TestStock {
 								() -> stock.remove(2, ValidCoin.QUARTER));
 		
 		assertEquals("No quarters left in stock.", insufficientCoins.getMessage());
+	}
+	
+	@Test
+	void shouldBeAbleToMakeExactChange() {
+		stock.add(4, ValidCoin.NICKEL);
+		assertTrue(stock.canMakeExactChange());
 	}
 }

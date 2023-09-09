@@ -6,7 +6,6 @@ public class Display {
 
 	public static String message(double insertedAmount, DisplayState state,
 								double selectedItemPrice) {
-		
 		String amount = "";
 		if(insertedAmount != 0)
 			amount = formatDollar(insertedAmount);	
