@@ -1,9 +1,5 @@
 package stock;
 
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.stream.Stream;
-
 public class CoinStock {
 	
 	private final StockHelper helper;
@@ -15,6 +11,10 @@ public class CoinStock {
 
 	public boolean has(ValidCoin coin) {
 		return helper.has(coin);
+	}
+	
+	public boolean has(int amount, ValidCoin coin) {
+		return helper.has(amount, coin);
 	}
 	
 	public void add(int amount, ValidCoin coin) {

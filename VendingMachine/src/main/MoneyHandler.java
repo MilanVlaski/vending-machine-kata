@@ -61,6 +61,10 @@ public class MoneyHandler {
 	public double insertedAmount() {
 		return insertedAmount;
 	}
+	
+	public boolean cantMakeChange() {
+		return !coinStock.canMakeExactChange();
+	}
 
 	private static double subtract(double payment, double price) {
 		return BigDecimal.valueOf(payment)

@@ -16,14 +16,8 @@ public class VendingMachine {
 		coinStock = new CoinStock();
 		itemStock = new ItemStock();
 		moneyHandler = new MoneyHandler(coinStock);
-		dispenser = new Dispenser(itemStock, moneyHandler);
-	}
-	
-	public VendingMachine(CoinStock coinStock) {
-		this.coinStock = coinStock;
-		itemStock = new ItemStock();
-		moneyHandler = new MoneyHandler(coinStock);
-		dispenser = new Dispenser(itemStock, moneyHandler);
+		Display display = new Display();
+		dispenser = new Dispenser(itemStock, moneyHandler, display);
 	}
 
 	public String updatedDisplay() {

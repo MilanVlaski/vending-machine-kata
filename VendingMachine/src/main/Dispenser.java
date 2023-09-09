@@ -3,33 +3,25 @@ package main;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.Display.DisplayState;
 import stock.Item;
 import stock.ItemStock;
 
 public class Dispenser {
 
-	public enum DisplayState {
-		SUCCESS("THANK YOU"),
-		SOLD_OUT("SOLD OUT"),
-		IDLE("INSERT COIN");
-
-		public String message;
-
-		DisplayState(String message) {
-			this.message = message;
-		}
-	}
-
 	private final List<Item> dispensedItems = new ArrayList<>();
 	private final ItemStock stock;
 	private final MoneyHandler moneyHandler;
+	private final Display display;
 
 	private Item selectedItem;
 	private DisplayState displayState = DisplayState.IDLE;
 
-	public Dispenser(ItemStock itemStock, MoneyHandler moneyHandler) {
+	public Dispenser(ItemStock itemStock, MoneyHandler moneyHandler,
+					 						Display display) {
 		this.stock = itemStock;
 		this.moneyHandler = moneyHandler;
+		this.display = display;
 	}
 
 	public void selectAndPurchase(Item item) {
@@ -49,17 +41,23 @@ public class Dispenser {
 				selectedItem = null;
 				dispense(item);
 				displayState = DisplayState.SUCCESS;
+				display.state(DisplayState.SUCCESS);
 			}
 		} else {
 			selectedItem = null;
 			displayState = DisplayState.SOLD_OUT;
+			display.state(DisplayState.SOLD_OUT);
 		}
 	}
 
 	public String message() {
 		DisplayState state = this.displayState;
+		if(state == DisplayState.IDLE && moneyHandler.cantMakeChange()) {
+			state = DisplayState.EXACT_CHANGE;
+		}
 		this.displayState = DisplayState.IDLE;
-		return Display.message(moneyHandler.insertedAmount(), state, priceOfSelection());
+		display.state(DisplayState.IDLE);
+		return display.message(moneyHandler.insertedAmount(), state, priceOfSelection());
 	}
 
 	public boolean contains(Item item) {

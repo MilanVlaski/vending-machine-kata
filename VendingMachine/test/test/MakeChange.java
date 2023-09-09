@@ -48,19 +48,19 @@ class MakeChange {
 		assertEquals(0, vendingMachine.insertedAmount());
 	}
 
-//	@Test
-//	void shouldDisplayExactChangeOnlyIfNoCoinsInThere() {
-//		assertTrue(vendingMachine.updatedDisplay().contains("EXACT CHANGE ONLY"));
-//		assertFalse(vendingMachine.updatedDisplay().contains("INSERT COIN"));
-//	}
-//
-//	@Test
-//	void shouldDisplayExactChangeOnly_IfFourNickelsAreStocked() {
-//		vendingMachine.coinStock().add(3, ValidCoin.NICKEL);
-//		assertTrue(vendingMachine.updatedDisplay().contains("EXACT CHANGE ONLY"));
-//		vendingMachine.coinStock().add(1, ValidCoin.NICKEL);
-//		assertFalse(vendingMachine.updatedDisplay().contains("INSERT COIN"));
-//	}
+	@Test
+	void shouldDisplayExactChangeOnlyIfNoCoinsInStock() {
+		assertTrue(vendingMachine.updatedDisplay().contains("EXACT CHANGE ONLY"));
+		assertFalse(vendingMachine.updatedDisplay().contains("INSERT COIN"));
+	}
+
+	@Test
+	void shouldDisplayInsertCoin_IfFourNickelsAreStocked() {
+		vendingMachine.coinStock().add(3, ValidCoin.NICKEL);
+		assertTrue(vendingMachine.updatedDisplay().contains("EXACT CHANGE ONLY"));
+		vendingMachine.coinStock().add(1, ValidCoin.NICKEL);
+		assertTrue(vendingMachine.updatedDisplay().contains("INSERT COIN"));
+	}
 
 	@Test // if the user doesnt care about change, we let him purchase
 	void doesntReturnChange() {

@@ -29,6 +29,9 @@ class TestVendingMachine {
 				.add(1, Item.COLA)
 				.add(1, Item.CANDY)
 				.add(1, Item.CHIPS);
+		vendingMachine.coinStock().add(10, ValidCoin.DIME);
+		vendingMachine.coinStock().add(10, ValidCoin.NICKEL);
+		vendingMachine.coinStock().add(10, ValidCoin.QUARTER);
 	}
 
 	@Test
@@ -105,10 +108,9 @@ class TestVendingMachine {
 	}
 
 	@Test
-	void shouldDisplayOutOfStock() {
+	void shouldDisplaySoldOut() {
 		vendingMachine = new VendingMachine();
 		vendingMachine.selectItem(Item.CANDY);
 		assertTrue(vendingMachine.updatedDisplay().contains("SOLD OUT"));
-		assertTrue(vendingMachine.updatedDisplay().contains("INSERT COIN"));
 	}
 }
