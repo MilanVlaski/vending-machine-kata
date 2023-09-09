@@ -32,7 +32,7 @@ public class CoinStock {
 				result++;
 			}
 		}
-		return result == ValidCoin.values().length;
+		return result == VALID_COINS.length;
 	}
 	
 	public boolean canMakeExactChange() {
