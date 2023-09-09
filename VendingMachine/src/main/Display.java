@@ -33,7 +33,7 @@ public class Display {
 	}
 	
 	private String makeMessageAndResetState(DisplayState oldState, String amount,
-							String priceOfItem) {
+											String priceOfItem){	
 		currentState = DisplayState.IDLE;
 		return String.join("\n", oldState.message, amount, priceOfItem);
 	}
