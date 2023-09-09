@@ -18,11 +18,11 @@ public class CoinStock {
 	}
 	
 	public void add(int amount, ValidCoin coin) {
-		helper.add(coin, amount);
+		helper.add(amount, coin);
 	}
 	
 	public void remove(int amount, ValidCoin coin) {
-		helper.remove(coin, amount);
+		helper.remove(amount, coin);
 	}
 	
 	public boolean isEmpty() {
@@ -36,13 +36,8 @@ public class CoinStock {
 	}
 	
 	public boolean canMakeExactChange() {
-//		we dont need optionals
-//		Stream<ValidCoin> stream = Arrays.stream(VALID_COINS);
-//		Optional<Double> maxValue = stream.map((c) -> c.value)
-//											.max(Double::compare);
-//		Optional<Double> minValue = stream.map((c) -> c.value)
-//											.min(Double::compare);
-		return false;
+		return helper.has(ValidCoin.minimumSmallestCoinsNecessaryForChange(),
+				ValidCoin.min());
 	}
 	
 }

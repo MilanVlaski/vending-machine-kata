@@ -13,11 +13,11 @@ public class ItemStock {
 	}
 	
 	public ItemStock add(int amount, Item item) {
-		helper.add(item, amount);
+		helper.add(amount, item);
 		return this;
 	}
 	
 	public void remove(int amount, Item item) {
-		helper.remove(item, amount);
+		helper.remove(amount, item);
 	}
 }

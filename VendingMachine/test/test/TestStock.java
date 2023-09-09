@@ -57,8 +57,8 @@ public class TestStock {
 	@Test
 	void shouldThrowInsufficientCoins_IfCantProvideSpecifiedAmount() {
 		stock.add(1, ValidCoin.QUARTER);
-		Throwable insufficientCoins = assertThrows(OutOfItem.class, 
-								() -> stock.remove(2, ValidCoin.QUARTER));
+		Throwable insufficientCoins = assertThrows(OutOfItem.class, () ->
+										stock.remove(2, ValidCoin.QUARTER));
 		
 		assertEquals("No quarters left in stock.", insufficientCoins.getMessage());
 	}
