@@ -17,9 +17,10 @@ public enum ValidCoin {
 
 	public static ValidCoin largestCoinWorthLessThan(double amount) {
 		Optional<ValidCoin> largestCoin = EnumSet.allOf(ValidCoin.class)
-					.stream()
-					.filter(coin -> coin.value <= amount)
-					.max(Comparator.comparingDouble(coin -> coin.value));
+				.stream()
+				.filter(coin -> coin.value <= amount)
+				.max(Comparator.comparingDouble(coin -> coin.value));
+		
 		return largestCoin.orElse(null);
 	}
 
@@ -30,15 +31,15 @@ public enum ValidCoin {
 	 * @param string representation of coin
 	 * @return
 	 */
-	public static double valueOfCoin(String typeOfCoin) {
+	public static Double valueOfCoin(String typeOfCoin) {
 
-		double result = 0;
-		for (ValidCoin c : ValidCoin.values()) {
-			if (typeOfCoin.equals(c.toString()))
-				result = c.value;
-		}
-
-		return result;
+		Optional<Double> value = EnumSet.allOf(ValidCoin.class)
+				.stream()
+				.filter(c -> typeOfCoin.equals(c.toString()))
+				.map(c -> c.value)
+				.findFirst();
+		
+		return value.orElse(0.0);
 	}
 
 	@Override
