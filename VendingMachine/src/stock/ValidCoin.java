@@ -2,7 +2,6 @@ package stock;
 
 import java.util.Comparator;
 import java.util.EnumSet;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 public enum ValidCoin {

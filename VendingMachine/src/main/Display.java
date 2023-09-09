@@ -14,23 +14,39 @@ public class Display {
 		}
 	}
 	
-	private DisplayState state = DisplayState.IDLE;
+	private DisplayState currentState = DisplayState.IDLE;
 
-	public void state(DisplayState state) {
-		this.state = state;
+	public void update(DisplayState state) {
+		this.currentState = state;
 	}
 
-	public String message(double insertedAmount, DisplayState state,
-								double selectedItemPrice) {
-		String amount = "";
-		if(insertedAmount != 0)
-			amount = formatDollar(insertedAmount);	
+	public String message(double insertedAmount, double selectedItemPrice,
+							boolean cantMakeChange) {
 		
-		String itemPrice = "";
-		if(selectedItemPrice != 0)
-			itemPrice = "PRICE = " + formatDollar(selectedItemPrice);
+		if(currentState == DisplayState.IDLE && cantMakeChange) {
+			currentState = DisplayState.EXACT_CHANGE;
+		}
+		DisplayState oldState = currentState;
+		update(DisplayState.IDLE);
+		
+		String amount = amount(insertedAmount);	
+		String priceOfItem = priceOfItem(selectedItemPrice);		
+		 
+		return String.join("\n", oldState.message, amount, priceOfItem);
+	}
 
-		return String.join("\n", state.message, amount, itemPrice);
+	private String priceOfItem(double selectedItemPrice) {
+		if(selectedItemPrice != 0)
+			return "PRICE = " + formatDollar(selectedItemPrice);
+		else
+			return "";
+	}
+
+	private String amount(double insertedAmount) {
+		if(insertedAmount != 0)
+			return formatDollar(insertedAmount);
+		else
+			return "";
 	}
 
 	private static String formatDollar(double money) {

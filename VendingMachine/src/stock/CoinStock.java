@@ -13,10 +13,6 @@ public class CoinStock {
 		return helper.has(coin);
 	}
 	
-	public boolean has(int amount, ValidCoin coin) {
-		return helper.has(amount, coin);
-	}
-	
 	public void add(int amount, ValidCoin coin) {
 		helper.add(amount, coin);
 	}

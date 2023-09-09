@@ -15,7 +15,6 @@ public class Dispenser {
 	private final Display display;
 
 	private Item selectedItem;
-	private DisplayState displayState = DisplayState.IDLE;
 
 	public Dispenser(ItemStock itemStock, MoneyHandler moneyHandler,
 					 						Display display) {
@@ -40,24 +39,17 @@ public class Dispenser {
 				moneyHandler.makeChange(item.price);
 				selectedItem = null;
 				dispense(item);
-				displayState = DisplayState.SUCCESS;
-				display.state(DisplayState.SUCCESS);
+				display.update(DisplayState.SUCCESS);
 			}
 		} else {
 			selectedItem = null;
-			displayState = DisplayState.SOLD_OUT;
-			display.state(DisplayState.SOLD_OUT);
+			display.update(DisplayState.SOLD_OUT);
 		}
 	}
 
 	public String message() {
-		DisplayState state = this.displayState;
-		if(state == DisplayState.IDLE && moneyHandler.cantMakeChange()) {
-			state = DisplayState.EXACT_CHANGE;
-		}
-		this.displayState = DisplayState.IDLE;
-		display.state(DisplayState.IDLE);
-		return display.message(moneyHandler.insertedAmount(), state, priceOfSelection());
+		return display.message(moneyHandler.insertedAmount(),
+		 priceOfSelection(), moneyHandler.cantMakeChange());
 	}
 
 	public boolean contains(Item item) {
