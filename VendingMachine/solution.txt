@@ -1,12 +1,18 @@
-Urgently refactor the display method.
-tryToPurchase is called after selecting an item, and in the method, we check
-if item is selected, which is dumb.
-similarly, when called in the insert method.
-
 Maybe write a bunch of more complex tests for the display, that checks whether
 the display is showing exactly what it should after every user input.
 
-i should mock that coinreturn.add() was called, because i dont have access
-to the coinreturn, i cant actually programatically test that.
+EXACT CHANGE ONLY when coinstock is empty, makes sense.
 
-im testing that it says INSERT COIN if nothing was purchased yet
+You can either give a warning when machine is KINDA empty.
+(because if its not totally empty, there is still a chance you wont receive
+proper change)
+
+Or, we can do a check every time we try to purchase, letting the user decide
+if he wants to get his money back, continue shopping, or proceed with the purchase.
+
+We need a minimum of 4 nickels, to be able to always return the right change
+given the ValidCoins we currently accept.
+
+Smallest coin is worth 5, largest is 25. That means the most change
+that can be created is worth 20. And to always be able to make that, or anything
+in between, we need 4 *5 . Which is 4 nickels.
