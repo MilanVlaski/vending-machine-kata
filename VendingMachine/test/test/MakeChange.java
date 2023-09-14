@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import core.VendingMachine;
 import stock.Item;
 import stock.ValidCoin;
-import vm.VendingMachine;
 
 class MakeChange {
 
@@ -31,7 +31,7 @@ class MakeChange {
 		vendingMachine.insert("quarter");
 		assertEquals(0.75, vendingMachine.insertedAmount());
 
-		vendingMachine.selectItem(Item.CANDY);
+		vendingMachine.select(Item.CANDY);
 		assertTrue(vendingMachine.isReturned("dime"));
 		assertEquals(0, vendingMachine.insertedAmount());
 	}
@@ -43,7 +43,7 @@ class MakeChange {
 		vendingMachine.insert("quarter");
 		assertEquals(0.75, vendingMachine.insertedAmount());
 
-		vendingMachine.selectItem(Item.CHIPS);
+		vendingMachine.select(Item.CHIPS);
 		assertTrue(vendingMachine.isReturned("quarter"));
 		assertEquals(0, vendingMachine.insertedAmount());
 	}
@@ -67,7 +67,7 @@ class MakeChange {
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
-		vendingMachine.selectItem(Item.CANDY);
+		vendingMachine.select(Item.CANDY);
 		assertEquals(0, vendingMachine.insertedAmount());
 	}
 	

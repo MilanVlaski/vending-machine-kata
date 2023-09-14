@@ -1,4 +1,4 @@
-package vm;
+package core;
 
 public class Display {
 	public enum DisplayState {
@@ -29,7 +29,8 @@ public class Display {
 		String amount = writeInserted(insertedAmount);	
 		String priceOfItem = writePrice(selectedItemPrice);
 		
-		return makeMessageAndResetState(currentState, amount, priceOfItem);
+		return makeMessageAndResetState(currentState, amount, priceOfItem)
+				.trim();
 	}
 	
 	private String makeMessageAndResetState(DisplayState oldState, String amount,

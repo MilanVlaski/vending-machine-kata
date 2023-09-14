@@ -1,11 +1,11 @@
-package vm;
+package core;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import core.Display.DisplayState;
 import stock.Item;
 import stock.ItemStock;
-import vm.Display.DisplayState;
 
 public class Dispenser {
 
@@ -16,10 +16,10 @@ public class Dispenser {
 
 	private Item selectedItem;
 
-	public Dispenser(ItemStock itemStock, MoneyHandler moneyHandler, Display display) {
+	public Dispenser(ItemStock itemStock, MoneyHandler moneyHandler) {
 		this.stock = itemStock;
 		this.moneyHandler = moneyHandler;
-		this.display = display;
+		this.display = new Display();
 	}
 
 	public void selectAndPurchase(Item item) {

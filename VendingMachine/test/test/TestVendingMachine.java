@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import core.VendingMachine;
 import stock.Item;
 import stock.ValidCoin;
-import vm.VendingMachine;
 
 class TestVendingMachine {
 
@@ -58,7 +58,7 @@ class TestVendingMachine {
 
 	@Test
 	void shouldDispenseChipsIfEnoughMoneyInserted() {
-		vendingMachine.selectItem(Item.CHIPS);
+		vendingMachine.select(Item.CHIPS);
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		
@@ -68,7 +68,7 @@ class TestVendingMachine {
 
 	@Test
 	void shouldSayThankYouThenInsertCoinIfDispensed() {
-		vendingMachine.selectItem(Item.CHIPS);
+		vendingMachine.select(Item.CHIPS);
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
 		
@@ -78,7 +78,7 @@ class TestVendingMachine {
 
 	@Test
 	void shouldDisplayPriceOfSelectedItem() {
-		vendingMachine.selectItem(Item.COLA);
+		vendingMachine.select(Item.COLA);
 		assertTrue(vendingMachine.updatedDisplay().contains("PRICE = 1.00"));
 		assertFalse(vendingMachine.updatedDisplay().contains("0.00"));
 	}
@@ -87,7 +87,7 @@ class TestVendingMachine {
 	void shouldDispenseIfYouSelectItemAfterInsertingEnoughCoins() {
 		vendingMachine.insert("quarter");
 		vendingMachine.insert("quarter");
-		vendingMachine.selectItem(Item.CHIPS);
+		vendingMachine.select(Item.CHIPS);
 		assertEquals(0, vendingMachine.insertedAmount());
 		assertTrue(vendingMachine.dispenserContains(Item.CHIPS));
 	}
@@ -103,7 +103,7 @@ class TestVendingMachine {
 	@Test
 	void shouldDisplaySoldOut() {
 		vendingMachine = new VendingMachine();
-		vendingMachine.selectItem(Item.CANDY);
+		vendingMachine.select(Item.CANDY);
 		assertTrue(vendingMachine.updatedDisplay().contains("SOLD OUT"));
 	}
 }

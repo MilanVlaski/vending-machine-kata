@@ -1,4 +1,4 @@
-package vm;
+package core;
 
 import stock.CoinStock;
 import stock.Item;
@@ -16,15 +16,14 @@ public class VendingMachine {
 		coinStock = new CoinStock();
 		itemStock = new ItemStock();
 		moneyHandler = new MoneyHandler(coinStock);
-		Display display = new Display();
-		dispenser = new Dispenser(itemStock, moneyHandler, display);
+		dispenser = new Dispenser(itemStock, moneyHandler);
 	}
 
 	public String updatedDisplay() {
 		return dispenser.message();
 	}
 
-	public void selectItem(Item item) {
+	public void select(Item item) {
 		dispenser.selectAndPurchase(item);
 	}
 
