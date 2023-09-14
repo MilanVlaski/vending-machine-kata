@@ -28,7 +28,7 @@ class TestVendingMachine {
 	}
 
 	@Test
-	void shouldSayInsertCoinIfEmpty() {
+	void shouldSayInsertCoinWhenStocked() {
 		assertTrue(vendingMachine.updatedDisplay().contains("INSERT COIN"));
 		assertFalse(vendingMachine.updatedDisplay().contains("0.00"));
 	}
