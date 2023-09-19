@@ -1,4 +1,4 @@
-Vending Machine Kata (unfinished)
+Vending Machine Kata
 ====================
 
 In this exercise you will build the brains of a vending machine.  It will accept money, make change, maintain
